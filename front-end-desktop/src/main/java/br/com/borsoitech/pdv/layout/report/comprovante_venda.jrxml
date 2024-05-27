@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.21.2.final using JasperReports Library version 6.21.2-8434a0bd7c3bbc37cbf916f2968d35e4b165821a  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="comprovante_venda" pageWidth="226" pageHeight="566" columnWidth="186" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="629a5250-9981-4fde-a48a-2693aa907f39">
+	<property name="com.jaspersoft.studio.data.sql.tables">
+		<![CDATA[dGJfdmVuZGEgLDE3MywxNDIsNmZiZGE0NjAtMDhlOC00NjU4LWJlMjYtYjczYTJiOGZjZDY2O3Ri
+X2NsaWVudGUgLDE1LDE1LDdhZDIwODYxLTFmMGItNDMzYy1hNzJjLTk4MWEyZjE3MTAxOTt0Yl9p
+dGVtX3ZlbmRhICwxNSwyMDcsYjRmYzk3NzMtYzI4NC00MWY3LTgyZGMtODRiNDM2MWM1ODZhOw==]]>
+	</property>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="pdvsistema"/>
+	<property name="com.jaspersoft.studio.unit." value="mm"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="726"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="260"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="260"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="729"/>
+	<parameter name="ID_VENDA" class="java.lang.Long" nestedType="java.lang.Long"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT 
+	v.id AS id_venda,
+	v.desconto AS desconto_venda,
+	c.id AS id_cliente,
+	c.nome AS nome_cliente,
+	c.cpf AS cpf_cliente,
+	c.telefone AS telefone_cliente,
+	it.id_produto AS id_produto,
+	it.descricao AS descricao_produto,
+	it.valorunit AS valor_unit_produto,
+	it.quantidade AS quantidade_produto,
+	it.desconto AS desconto_produto
+FROM tb_venda v
+	INNER JOIN tb_cliente c ON c.id = v.id_cliente 
+	INNER JOIN tb_item_venda it ON it.id_venda = v.id 
+WHERE  
+	 v.id = $P{ID_VENDA} ]]>
+	</queryString>
+	<field name="id_venda" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="id_venda"/>
+		<property name="com.jaspersoft.studio.field.label" value="id_venda"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_venda"/>
+	</field>
+	<field name="desconto_venda" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="desconto_venda"/>
+		<property name="com.jaspersoft.studio.field.label" value="desconto_venda"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_venda"/>
+	</field>
+	<field name="id_cliente" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="id_cliente"/>
+		<property name="com.jaspersoft.studio.field.label" value="id_cliente"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_cliente"/>
+	</field>
+	<field name="nome_cliente" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nome_cliente"/>
+		<property name="com.jaspersoft.studio.field.label" value="nome_cliente"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_cliente"/>
+	</field>
+	<field name="cpf_cliente" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="cpf_cliente"/>
+		<property name="com.jaspersoft.studio.field.label" value="cpf_cliente"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_cliente"/>
+	</field>
+	<field name="telefone_cliente" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="telefone_cliente"/>
+		<property name="com.jaspersoft.studio.field.label" value="telefone_cliente"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_cliente"/>
+	</field>
+	<field name="id_produto" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="id_produto"/>
+		<property name="com.jaspersoft.studio.field.label" value="id_produto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_item_venda"/>
+	</field>
+	<field name="descricao_produto" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="descricao_produto"/>
+		<property name="com.jaspersoft.studio.field.label" value="descricao_produto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_item_venda"/>
+	</field>
+	<field name="valor_unit_produto" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="valor_unit_produto"/>
+		<property name="com.jaspersoft.studio.field.label" value="valor_unit_produto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_item_venda"/>
+	</field>
+	<field name="quantidade_produto" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="quantidade_produto"/>
+		<property name="com.jaspersoft.studio.field.label" value="quantidade_produto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_item_venda"/>
+	</field>
+	<field name="desconto_produto" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="desconto_produto"/>
+		<property name="com.jaspersoft.studio.field.label" value="desconto_produto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_item_venda"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="26" height="30" uuid="ae7bec08-d498-4309-b9c0-65dd843fcd0a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7ea58d35-ada1-46ee-a8e3-ec61cbbd6291"/>
+				</reportElement>
+				<text><![CDATA[id_venda]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="26" y="0" width="16" height="30" uuid="336694e7-6363-4e4a-aa0d-d8973ebe1f0b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9668a1e6-36a5-4ac7-a079-1fbac5fbe064"/>
+				</reportElement>
+				<text><![CDATA[desconto_venda]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="42" y="0" width="16" height="30" uuid="b846f48e-de1f-4caa-9cf5-02b4e5a08112">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b491f0b5-afcd-4970-aaf4-b0b67d9c16a6"/>
+				</reportElement>
+				<text><![CDATA[id_cliente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="58" y="0" width="16" height="30" uuid="61932605-3729-420d-b267-a55331a26939">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bcec856f-7f8a-4e81-a919-fef56241ac37"/>
+				</reportElement>
+				<text><![CDATA[nome_cliente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="74" y="0" width="16" height="30" uuid="97ef60aa-538f-4391-b720-87741a1c7a3d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1ad700f8-27a1-4d47-aa3a-9c1ceb9f7cb3"/>
+				</reportElement>
+				<text><![CDATA[cpf_cliente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="90" y="0" width="16" height="30" uuid="9c7a2b3b-f0d1-4304-9278-7fad96a3c80c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="85e4c255-7b8a-494c-9bdd-3bc57f554a3d"/>
+				</reportElement>
+				<text><![CDATA[telefone_cliente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="106" y="0" width="16" height="30" uuid="6680bebc-4bb6-414e-bafe-dad97596d689">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7d5ed97c-9158-4280-a94b-97956f2aebd6"/>
+				</reportElement>
+				<text><![CDATA[id_produto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="122" y="0" width="16" height="30" uuid="e0afca71-a7c1-4641-a694-0d8c3e6cd7d3">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="52921e7e-ef50-49e2-9c84-a352c28e3090"/>
+				</reportElement>
+				<text><![CDATA[descricao_produto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="138" y="0" width="16" height="30" uuid="e965afc7-0229-4912-9365-1eb793d85dfe">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="896634a7-61c5-498f-9ace-ccd7f3072ff8"/>
+				</reportElement>
+				<text><![CDATA[valor_unit_produto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="154" y="0" width="16" height="30" uuid="c30e2d17-2840-457c-8151-7355f33c906c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="eb240ec0-e14e-463d-b09c-7b1dc1d6448a"/>
+				</reportElement>
+				<text><![CDATA[quantidade_produto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="170" y="0" width="16" height="30" uuid="bf2e8257-8a2c-4498-a3ad-454f2f2a53a7">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3214efd6-f99f-48cb-9a97-4a6399b735c5"/>
+				</reportElement>
+				<text><![CDATA[desconto_produto]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="26" height="30" uuid="47405220-c373-4d29-8572-e6d385ffda1c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7ea58d35-ada1-46ee-a8e3-ec61cbbd6291"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{id_venda}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="26" y="0" width="16" height="30" uuid="7cfbc903-ad8b-42cf-a854-0a3afe456bb8">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9668a1e6-36a5-4ac7-a079-1fbac5fbe064"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{desconto_venda}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="42" y="0" width="16" height="30" uuid="cd56b400-6084-4bb7-959d-acbf07b6da59">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b491f0b5-afcd-4970-aaf4-b0b67d9c16a6"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{id_cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="58" y="0" width="16" height="30" uuid="fa62a8ab-8f6d-4650-90f0-79c12a12dc7d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bcec856f-7f8a-4e81-a919-fef56241ac37"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{nome_cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="74" y="0" width="16" height="30" uuid="ebb1a6a8-0672-4a97-bb22-a626523b0d3c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1ad700f8-27a1-4d47-aa3a-9c1ceb9f7cb3"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{cpf_cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="90" y="0" width="16" height="30" uuid="8db33a72-f419-44b7-b983-e8d470643849">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="85e4c255-7b8a-494c-9bdd-3bc57f554a3d"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{telefone_cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="106" y="0" width="16" height="30" uuid="464f7b3e-dea6-4aa3-96d0-edc04eb83554">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7d5ed97c-9158-4280-a94b-97956f2aebd6"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{id_produto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="122" y="0" width="16" height="30" uuid="f6f2ea36-cf72-42b6-a021-ee1a25723c43">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="52921e7e-ef50-49e2-9c84-a352c28e3090"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{descricao_produto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="138" y="0" width="16" height="30" uuid="f016294d-1ce3-4946-a61f-49990b9cea48">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="896634a7-61c5-498f-9ace-ccd7f3072ff8"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{valor_unit_produto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="154" y="0" width="16" height="30" uuid="ece57708-1f51-45ff-b248-1e945067dd36">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="eb240ec0-e14e-463d-b09c-7b1dc1d6448a"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{quantidade_produto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="170" y="0" width="16" height="30" uuid="8d19d4d2-1836-44e7-98a1-049132f0367f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3214efd6-f99f-48cb-9a97-4a6399b735c5"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{desconto_produto}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
