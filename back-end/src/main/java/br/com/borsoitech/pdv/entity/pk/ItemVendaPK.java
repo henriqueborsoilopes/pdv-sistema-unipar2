@@ -4,13 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.com.borsoitech.pdv.entity.Produto;
 import br.com.borsoitech.pdv.entity.Venda;
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Embeddable
-public class ItemVendaPK {
+public class ItemVendaPK implements Serializable {
     
     @ManyToOne
     @JsonIgnore

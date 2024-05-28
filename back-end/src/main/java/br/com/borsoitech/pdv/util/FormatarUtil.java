@@ -5,7 +5,9 @@ import java.text.ParseException;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.springframework.stereotype.Component;
 
+@Component
 public class FormatarUtil {
     
     public static int arredondaParaCima(double valor) {

@@ -1,9 +1,9 @@
 package br.com.borsoitech.pdv.entity;
 
 import br.com.borsoitech.pdv.entity.pk.ItemVendaPK;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "tb_item_venda")

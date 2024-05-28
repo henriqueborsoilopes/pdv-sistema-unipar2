@@ -1,8 +1,9 @@
 package br.com.borsoitech.pdv;
 
-public class PdvApplication {
+import br.com.borsoitech.pdv.layout.MainControlador;
 
-	public static void main(String[] args) {
-            
-	}
+public class PdvApplication {
+    public static void main(String[] args) {
+        new MainControlador().setVisible(true);
+    }
 }
