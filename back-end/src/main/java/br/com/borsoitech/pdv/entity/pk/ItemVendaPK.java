@@ -1,19 +1,21 @@
 package br.com.borsoitech.pdv.entity.pk;
 
+import java.io.Serializable;
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.com.borsoitech.pdv.entity.Produto;
 import br.com.borsoitech.pdv.entity.Venda;
-import java.io.Serializable;
-import java.util.Objects;
-import javax.persistence.Embeddable;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Embeddable
 public class ItemVendaPK implements Serializable {
-    
-    @ManyToOne
+	private static final long serialVersionUID = 1L;
+
+	@ManyToOne
     @JsonIgnore
     @JoinColumn(name = "id_venda")
     private Venda venda;

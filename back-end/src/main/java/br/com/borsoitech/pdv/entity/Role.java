@@ -1,10 +1,14 @@
 package br.com.borsoitech.pdv.entity;
 
-import org.springframework.security.core.GrantedAuthority;
-
 import java.util.Objects;
 
-import javax.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_role")
