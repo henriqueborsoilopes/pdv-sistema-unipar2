@@ -1,5 +1,6 @@
 package br.com.borsoitech.pdv.layout.login;
 
+import br.com.borsoitech.pdv.model.service.AutorizacaoService;
 import br.com.borsoitech.pdv.model.type.Usuario;
 import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
@@ -16,6 +17,8 @@ public class LoginControlador extends javax.swing.JFrame {
         btnEntrar.addActionListener((ActionEvent e) -> {
             usuario.setEmail(txtEmail.getText());
             usuario.setSenha(txtSenha.getText());
+            AutorizacaoService loginService = new AutorizacaoService();
+            loginService.login("myclientid", "myclientsecret", "alex@gmail.com", "123456", "password");
         });
     }
     
