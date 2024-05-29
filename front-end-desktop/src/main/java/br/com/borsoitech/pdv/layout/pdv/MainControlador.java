@@ -1,4 +1,4 @@
-package br.com.borsoitech.pdv.layout;
+package br.com.borsoitech.pdv.layout.pdv;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
@@ -324,7 +324,7 @@ public class MainControlador extends javax.swing.JFrame {
 
     @Override
     public void dispose() {
-        int resposta = JOptionPane.showConfirmDialog(MainControlador.this, "Deseja realmente fechar a janela?", "Confirmação", JOptionPane.YES_NO_OPTION);
+        int resposta = JOptionPane.showConfirmDialog(MainControlador.this, "Deseja realmente sair do programa?", "Confirmação", JOptionPane.YES_NO_OPTION);
         if (resposta == JOptionPane.YES_OPTION) {
             super.dispose();
         }

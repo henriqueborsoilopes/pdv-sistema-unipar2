@@ -5,6 +5,7 @@ import br.com.borsoitech.pdv.repository.ClienteRepositorio;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ClienteServico {
@@ -14,8 +15,9 @@ public class ClienteServico {
     public ClienteServico(ClienteRepositorio repository) {
         this.repository = repository;
     }
-    
-    public Page<Cliente> acharTodosPaginado(Pageable pageable) {
-        return repository.findAll(pageable);
+
+    @Transactional(readOnly = true)
+    public Page<Cliente> acharTodosPaginado(String nome, Pageable pageable) {
+        return repository.findAllByNome(nome, pageable);
     }
 }

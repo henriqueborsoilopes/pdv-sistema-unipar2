@@ -5,6 +5,7 @@ import br.com.borsoitech.pdv.repository.ProdutoRepositorio;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ProdutoServico {
@@ -14,8 +15,9 @@ public class ProdutoServico {
     public ProdutoServico(ProdutoRepositorio repository) {
         this.repository = repository;
     }
-    
-    public Page<Produto> acharTodosPaginado(Pageable pageable) {
-        return repository.findAll(pageable);
+
+    @Transactional(readOnly = true)
+    public Page<Produto> acharTodosPaginado(String descricao, Pageable pageable) {
+        return repository.findAllByDescricao(descricao, pageable);
     }
 }

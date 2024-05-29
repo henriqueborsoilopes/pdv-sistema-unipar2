@@ -28,8 +28,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	@Value("${cors.origins}")
 	private String corsOrigins;
 	
-	private static final String[] PUBLIC = { "/oauth/token", "/h2-console/**", "/swagger-ui/**" };
-	private static final String[] OPERATOR_OR_ADMIN	 = { "/products/**"};
+	private static final String[] PUBLIC = { "/oauth/token", "/h2-console/**", "/products/**", "/clientes/**", "/vendas/**" };
+	private static final String[] OPERATOR_OR_ADMIN	 = { "/products/**" };
 	private static final String[] ADMIN	 = { "/users/**" };
 	
 	private Environment environment;
@@ -45,7 +45,6 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 		resources.tokenStore(jwtTokenStore);
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		if (Arrays.asList(environment.getActiveProfiles()).contains("test")) {
@@ -53,10 +52,10 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 		}
 
         http.authorizeRequests(requests -> requests
-                .requestMatchers(PUBLIC).permitAll()
-                .requestMatchers(HttpMethod.GET, OPERATOR_OR_ADMIN).permitAll()
-                .requestMatchers(OPERATOR_OR_ADMIN).hasAnyRole("ADMIN", "OPERATOR")
-                .requestMatchers(ADMIN).hasRole("ADMIN")
+                .antMatchers(PUBLIC).permitAll()
+                .antMatchers(HttpMethod.GET, OPERATOR_OR_ADMIN).permitAll()
+                .antMatchers(OPERATOR_OR_ADMIN).hasAnyRole("ADMIN", "OPERATOR")
+                .antMatchers(ADMIN).hasRole("ADMIN")
                 .anyRequest().authenticated());
 
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()));

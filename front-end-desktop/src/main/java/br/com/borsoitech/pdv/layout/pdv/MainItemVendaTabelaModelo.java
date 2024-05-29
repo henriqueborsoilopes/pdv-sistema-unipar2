@@ -1,4 +1,4 @@
-package br.com.borsoitech.pdv.layout;
+package br.com.borsoitech.pdv.layout.pdv;
 
 import java.util.List;
 
