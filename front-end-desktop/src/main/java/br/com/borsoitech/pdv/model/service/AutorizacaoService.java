@@ -30,19 +30,13 @@ public class AutorizacaoService {
         System.out.println("Authorization Header: " + authHeader);
         System.out.println("Login Request: " + new Gson().toJson(loginRequest));
         
-        Call<LoginResponse> call = iUserService.login(authHeader, "application/json", username, password, grantType);
+        Call<LoginResponse> call = iUserService.getAccessToken(grantType, username, password, authHeader);
 
         call.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.isSuccessful()) {
-                    LoginResponse loginResponse = response.body();
-                    if (loginResponse != null) {
-                        String token = loginResponse.getToken();
-                        System.out.println("Token: " + token);
-                    } else {
-                        System.out.println("Login response is null");
-                    }
+                    System.out.println("Token: " + response.body().getAccess_token());
                 } else {
                     System.out.println("Login failed: " + response.message());
                 }

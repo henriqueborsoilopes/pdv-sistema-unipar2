@@ -21,6 +21,7 @@ public class ClienteController {
         this.clienteServico = clienteServico;
     }
 
+//    @ApiOperation(value = "Endpoint Lista todas Pessoas")
     @GetMapping
     public ResponseEntity<Page<Cliente>> getAllPaged(@RequestParam(name = "nome", defaultValue = "") String nome, Pageable pageable) {
         return ResponseEntity.ok().body(clienteServico.acharTodosPaginado(nome, pageable));
