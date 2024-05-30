@@ -1,21 +1,17 @@
 package br.com.borsoitech.pdv.layout.login;
 
-import br.com.borsoitech.pdv.layout.pdv.MainControlador;
-import br.com.borsoitech.pdv.model.service.AutorizacaoService;
-import br.com.borsoitech.pdv.model.type.Usuario;
 import java.awt.event.ActionEvent;
-import javax.swing.JOptionPane;
+
+import br.com.borsoitech.pdv.layout.pdv.MainControlador;
 
 public class LoginControlador extends javax.swing.JFrame {
-        
-    public LoginControlador() {
+	private static final long serialVersionUID = 1L;
+	
+	public LoginControlador() {
         initComponents();
         setLocationRelativeTo(null);
         setExtendedState(LoginControlador.NORMAL);
         
-        Usuario usuario = new Usuario();
-        //alex@gmail.com
-        //123456
         btnEntrar.addActionListener((ActionEvent e) -> {
             AutorizacaoService loginService = new AutorizacaoService();
             loginService.login("myclientid", "myclientsecret", txtEmail.getText(), txtSenha.getText(), "password");
@@ -30,7 +26,6 @@ public class LoginControlador extends javax.swing.JFrame {
     }
     
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();

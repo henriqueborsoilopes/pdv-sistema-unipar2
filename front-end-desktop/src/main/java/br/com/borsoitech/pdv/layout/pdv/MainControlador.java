@@ -30,7 +30,7 @@ public class MainControlador extends javax.swing.JFrame {
     public MainControlador() {
         initComponents();
         setLocationRelativeTo(null);
-        setExtendedState(MainControlador.MAXIMIZED_BOTH);
+        setExtendedState(MainControlador.NORMAL);
         novaVenda();
         atulizarColunasLinhasTabelaItem();
         atulizarColunasLinhasTabelaPagamento();

@@ -1,4 +1,4 @@
-package br.com.borsoitech.pdv.model.service.interfaces;
+package br.com.borsoitech.pdv.layout.pdv;
 
 import br.com.borsoitech.pdv.model.type.Venda;
 import retrofit2.Call;

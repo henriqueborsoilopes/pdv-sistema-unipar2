@@ -23,7 +23,7 @@ public class Venda {
     private Long id;
     private Double desconto;
     
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_cliente")
     private Cliente cliente;
     

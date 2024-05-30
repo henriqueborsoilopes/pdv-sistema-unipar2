@@ -1,11 +1,13 @@
 package br.com.borsoitech.pdv.layout.tableclient;
 
-import br.com.borsoitech.pdv.model.service.ClienteService;
 import java.awt.Component;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
 
 import br.com.borsoitech.pdv.model.type.Cliente;
 import br.com.borsoitech.pdv.model.type.Pagina;
@@ -147,9 +149,18 @@ public class ClienteTabelaControlador extends javax.swing.JFrame {
     
     private void carregarTabela() {
         ClienteService service = new ClienteService();
-        service.getAllClientePaginado(null, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTcxMzU1MzUsInVzZXJfbmFtZSI6ImFsZXhAZ21haWwuY29tIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9PUEVSQVRPUiIsIlJPTEVfQURNSU4iXSwianRpIjoiYmY5YjM5ZjYtZTY3NC00ZmI3LWFjNGMtMmZjODQ0NWM1NjMxIiwiY2xpZW50X2lkIjoibXljbGllbnRpZCIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdfQ.g5rwI4xhCdtPz8ArYO_RVy_Qg8l63piI1gw56hhMsRA");
-        ClienteTabelaModelo modelo = new ClienteTabelaModelo(null);
-        tabelaClientes.setModel(modelo);
+        service.getAllClientePaginado("nome", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTcxMzIwOTYsInVzZXJfbmFtZSI6ImFsZXhAZ21haWwuY29tIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9PUEVSQVRPUiIsIlJPTEVfQURNSU4iXSwianRpIjoiMzNkNzEzMWMtOTRiZS00NDM3LWE2NzQtNDE4ZWU1NWU3ZDZhIiwiY2xpZW50X2lkIjoibXljbGllbnRpZCIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdfQ.hQE456eht2sFQAujKDOmDv-SE81q2w2aMpMu2uB8ckU", new ClienteCallback() {
+            @Override
+            public void onPaginaLoaded(Pagina<Cliente> pagina) {
+            	ClienteTabelaModelo modelo = new ClienteTabelaModelo(pagina.getContent());
+                tabelaClientes.setModel(modelo);
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                JOptionPane.showMessageDialog(ClienteTabelaControlador.this, errorMessage);
+            }
+        });
     }
     
     @Override

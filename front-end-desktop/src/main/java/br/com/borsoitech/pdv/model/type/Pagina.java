@@ -15,7 +15,14 @@ public class Pagina<T> {
     private boolean first;
     private boolean empty;
     
-    public Pagina() { }
+    @Override
+	public String toString() {
+		return "Pagina [last=" + last + ", totalElements=" + totalElements + ", totalPages="
+				+ totalPages + ", size=" + size + ", number=" + number + ", numberOfElements=" + numberOfElements
+				+ ", first=" + first + ", empty=" + empty + "]";
+	}
+
+	public Pagina() { }
 
     public Pagina(boolean last, Integer totalElements, Integer totalPages, Integer size, Integer number, Integer numberOfElements, boolean first, boolean empty) {
         this.last = last;

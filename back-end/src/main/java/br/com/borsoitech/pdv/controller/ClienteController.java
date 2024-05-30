@@ -30,8 +30,7 @@ public class ClienteController {
     }
 
     @Operation(summary = "Obter todos os clientes", description = "Retorna uma página de todos os clientes")
-    @ApiResponse(responseCode = "200", description = "Clientes encontrados",
-        content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Cliente.class))))
+    @ApiResponse(responseCode = "200", description = "Clientes encontrados", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Cliente.class))))
     @PreAuthorize("hasAnyRole('ADMIN', 'ROLE_OPERATOR')")
     @GetMapping
     public ResponseEntity<Page<Cliente>> getAllPaged(@RequestParam(name = "nome", defaultValue = "") String nome, Pageable pageable) {

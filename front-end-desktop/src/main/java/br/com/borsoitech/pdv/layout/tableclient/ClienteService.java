@@ -1,6 +1,6 @@
-package br.com.borsoitech.pdv.model.service;
+package br.com.borsoitech.pdv.layout.tableclient;
 
-import br.com.borsoitech.pdv.model.service.interfaces.IClienteService;
+import br.com.borsoitech.pdv.model.retrofit.RetrofitService;
 import br.com.borsoitech.pdv.model.type.Cliente;
 import br.com.borsoitech.pdv.model.type.Pagina;
 import retrofit2.Call;
@@ -17,22 +17,22 @@ public class ClienteService {
         iClienteService = retrofit.create(IClienteService.class);
     }
 
-    public void getAllClientePaginado(String nome, String authHeader) {
-        Call<Pagina<Cliente>> pagina = iClienteService.getAllClientePaginado(nome, authHeader);
+    public void getAllClientePaginado(String nome, String authHeader, final ClienteCallback callback) {
+        Call<Pagina<Cliente>> request = iClienteService.getAllClientePaginado("Bearer " + authHeader);
 
-        pagina.enqueue(new Callback<Pagina<Cliente>>() {
+        request.enqueue(new Callback<Pagina<Cliente>>() {
             @Override
             public void onResponse(Call<Pagina<Cliente>> call, Response<Pagina<Cliente>> response) {
                 if (response.isSuccessful()) {
-                    System.out.println("Total de páginas: " + response.body().getTotalPages());
+                    callback.onPaginaLoaded(response.body());
                 } else {
-                    System.out.println("Login failed: " + response.message());
+                    callback.onFailure(response.message());
                 }
             }
 
             @Override
             public void onFailure(Call<Pagina<Cliente>> call, Throwable t) {
-                System.out.println("Login request failed: " + t.getMessage());
+                callback.onFailure(t.getMessage());
             }
         });
     }

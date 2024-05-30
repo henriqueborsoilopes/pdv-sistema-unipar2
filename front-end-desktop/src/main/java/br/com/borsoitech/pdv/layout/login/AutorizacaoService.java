@@ -1,9 +1,9 @@
-package br.com.borsoitech.pdv.model.service;
+package br.com.borsoitech.pdv.layout.login;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
-import br.com.borsoitech.pdv.model.service.interfaces.IUserService;
+import br.com.borsoitech.pdv.model.retrofit.RetrofitService;
 import br.com.borsoitech.pdv.model.type.LoginRequest;
 import br.com.borsoitech.pdv.model.type.LoginResponse;
 import com.google.gson.Gson;

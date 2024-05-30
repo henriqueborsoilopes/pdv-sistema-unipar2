@@ -1,4 +1,4 @@
-package br.com.borsoitech.pdv.model.service;
+package br.com.borsoitech.pdv.model.retrofit;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

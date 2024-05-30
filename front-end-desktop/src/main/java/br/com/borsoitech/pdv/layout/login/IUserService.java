@@ -1,4 +1,4 @@
-package br.com.borsoitech.pdv.model.service.interfaces;
+package br.com.borsoitech.pdv.layout.login;
 
 import br.com.borsoitech.pdv.model.type.LoginResponse;
 import retrofit2.Call;

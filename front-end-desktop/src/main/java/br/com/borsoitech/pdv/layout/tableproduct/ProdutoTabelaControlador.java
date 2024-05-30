@@ -6,7 +6,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.JOptionPane;
+
+import br.com.borsoitech.pdv.layout.tableclient.ClienteTabelaControlador;
 import br.com.borsoitech.pdv.layout.util.FormatarUtil;
+import br.com.borsoitech.pdv.model.type.Cliente;
 import br.com.borsoitech.pdv.model.type.Pagina;
 import br.com.borsoitech.pdv.model.type.Produto;
 
@@ -25,10 +29,6 @@ public class ProdutoTabelaControlador extends javax.swing.JFrame {
         carregarTabela();
         
         tabelaProdutos.setRowHeight(29);
-//        txtNumPagina.setText(String.valueOf(pagina.getTotalPages() + 1));
-//        btAnterior.setText("← " + String.valueOf(pagina.getNumber() + 1));
-//        btAnterior.setEnabled(false);
-//        btProximo.setText(pagina.getNumber() + " →");
         
         txtPesquisar.requestFocus();
         txtPesquisar.addKeyListener(keyPressed());
@@ -145,10 +145,24 @@ public class ProdutoTabelaControlador extends javax.swing.JFrame {
     }
     
     private void carregarTabela() {
-// TODO carregar tabela
-//        pagina = new ProdutoServico(new ProdutoRepositorio()).acharTodosPaginado(pesquisarNome, pagina.getNumPagina(), pagina.getTamPagina());
-//        ProdutoTabelaModelo modelo = new ProdutoTabelaModelo(pagina.getConteudo());
-//        tabelaProdutos.setModel(modelo);
+    	ProdutoService service = new ProdutoService();
+        service.getAllClientePaginado("nome", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTcxMzIwOTYsInVzZXJfbmFtZSI6ImFsZXhAZ21haWwuY29tIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9PUEVSQVRPUiIsIlJPTEVfQURNSU4iXSwianRpIjoiMzNkNzEzMWMtOTRiZS00NDM3LWE2NzQtNDE4ZWU1NWU3ZDZhIiwiY2xpZW50X2lkIjoibXljbGllbnRpZCIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdfQ.hQE456eht2sFQAujKDOmDv-SE81q2w2aMpMu2uB8ckU", new ProdutoCallback() {
+            @Override
+            public void onPaginaLoaded(Pagina<Produto> pagina1) {
+            	ProdutoTabelaModelo modelo = new ProdutoTabelaModelo(pagina1.getContent());
+                tabelaProdutos.setModel(modelo);
+                pagina = pagina1;
+                txtNumPagina.setText(String.valueOf(pagina.getNumber()));
+                btAnterior.setText("← " + String.valueOf(pagina.isFirst() ? pagina.getNumber() + 1 : pagina.getNumber() - 1));
+                btAnterior.setEnabled(false);
+                btProximo.setText(pagina.getTotalPages() + " →");
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                JOptionPane.showMessageDialog(ProdutoTabelaControlador.this, errorMessage);
+            }
+        });
     }
     
     @Override
