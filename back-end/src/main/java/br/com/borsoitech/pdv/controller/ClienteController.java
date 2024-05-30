@@ -10,7 +10,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.borsoitech.pdv.entity.Cliente;
 import br.com.borsoitech.pdv.service.ClienteServico;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
+@Tag(name = "Cliente", description = "API para gerenciamento de cliente")
 @RestController
 @RequestMapping("/clientes")
 public class ClienteController {
@@ -21,7 +27,8 @@ public class ClienteController {
         this.clienteServico = clienteServico;
     }
 
-//    @ApiOperation(value = "Endpoint Lista todas Pessoas")
+    @Operation(summary = "Obter todos os clientes", description = "Retorna uma página de todos os clientes")
+    @ApiResponse(responseCode = "200", description = "Clientes encontrados", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Cliente.class)))
     @GetMapping
     public ResponseEntity<Page<Cliente>> getAllPaged(@RequestParam(name = "nome", defaultValue = "") String nome, Pageable pageable) {
         return ResponseEntity.ok().body(clienteServico.acharTodosPaginado(nome, pageable));
