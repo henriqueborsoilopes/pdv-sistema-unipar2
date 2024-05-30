@@ -1,5 +1,6 @@
 package br.com.borsoitech.pdv.layout.tableclient;
 
+import br.com.borsoitech.pdv.model.service.ClienteService;
 import java.awt.Component;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -7,14 +8,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import br.com.borsoitech.pdv.model.type.Cliente;
-import br.com.borsoitech.pdv.model.type.PaginaDTO;
+import br.com.borsoitech.pdv.model.type.Pagina;
 
 public class ClienteTabelaControlador extends javax.swing.JFrame {
     private static final long serialVersionUID = 1L;
 
 	private String pesquisarNome = "";
    
-    private PaginaDTO<Cliente> pagina = new PaginaDTO<>(0, 10, 0);
+    private Pagina<Cliente> pagina = new Pagina<>();
     private ClienteSelecionadoListener clienteSelecionadoListener;
     
     public ClienteTabelaControlador(Component component) {
@@ -24,10 +25,10 @@ public class ClienteTabelaControlador extends javax.swing.JFrame {
         carregarTabela();
         
         tabelaClientes.setRowHeight(29);
-        txtNumPagina.setText(String.valueOf(pagina.getNumPagina() + 1));
-        btAnterior.setText("← " + String.valueOf(pagina.getNumPagina() + 1));
-        btAnterior.setEnabled(false);
-        btProximo.setText(pagina.getPaginaAtual() + " →");
+//        txtNumPagina.setText(String.valueOf(pagina.getNumPagina() + 1));
+//        btAnterior.setText("← " + String.valueOf(pagina.getNumPagina() + 1));
+//        btAnterior.setEnabled(false);
+//        btProximo.setText(pagina.getPaginaAtual() + " →");
         
         txtPesquisar.requestFocus();
         txtPesquisar.addKeyListener(keyPressed());
@@ -75,52 +76,52 @@ public class ClienteTabelaControlador extends javax.swing.JFrame {
     }
     
     public void paginaAnterior() {
-        if (btAnterior.isEnabled()) {
-            int numPg = pagina.getNumPagina();
-            pagina.setNumPagina(numPg -= 1);
-            txtNumPagina.setText(String.valueOf(pagina.getNumPagina() + 1));
-            if (pagina.getNumPagina() >= 1) {
-                btAnterior.setText("← " + String.valueOf(pagina.getNumPagina()));
-            }
-            btProximo.setEnabled(true);
-            carregarTabela();
-            if (pagina.getNumPagina() < 1) {
-                btAnterior.setEnabled(false);
-            }
-        }
+//        if (btAnterior.isEnabled()) {
+//            int numPg = pagina.getNumPagina();
+//            pagina.setNumPagina(numPg -= 1);
+//            txtNumPagina.setText(String.valueOf(pagina.getNumPagina() + 1));
+//            if (pagina.getNumPagina() >= 1) {
+//                btAnterior.setText("← " + String.valueOf(pagina.getNumPagina()));
+//            }
+//            btProximo.setEnabled(true);
+//            carregarTabela();
+//            if (pagina.getNumPagina() < 1) {
+//                btAnterior.setEnabled(false);
+//            }
+//        }
     }
     
     public void proximaPagina() {
-        if (btProximo.isEnabled()) {
-            btAnterior.setEnabled(true);
-            int numPg = pagina.getNumPagina();
-            pagina.setNumPagina(numPg += 1);
-            txtNumPagina.setText(String.valueOf(pagina.getNumPagina() + 1));
-            if (pagina.getNumPagina() >= 2) {
-                btAnterior.setText("← " + String.valueOf(pagina.getNumPagina()));
-            }
-            carregarTabela();
-            if (pagina.isUltimaPagina()) {
-                btProximo.setEnabled(false);
-            }
-        }
+//        if (btProximo.isEnabled()) {
+//            btAnterior.setEnabled(true);
+//            int numPg = pagina.getNumPagina();
+//            pagina.setNumPagina(numPg += 1);
+//            txtNumPagina.setText(String.valueOf(pagina.getNumPagina() + 1));
+//            if (pagina.getNumPagina() >= 2) {
+//                btAnterior.setText("← " + String.valueOf(pagina.getNumPagina()));
+//            }
+//            carregarTabela();
+//            if (pagina.isUltimaPagina()) {
+//                btProximo.setEnabled(false);
+//            }
+//        }
     }
     
     public void pesquisar() {
-        pesquisarNome = txtPesquisar.getText();
-        pagina.setNumPagina(0);
-        carregarTabela();
-        txtNumPagina.setText(String.valueOf(pagina.getNumPagina() + 1));
-        btAnterior.setText("← " + String.valueOf(pagina.getNumPagina() + 1));
-        btAnterior.setEnabled(false);
-        if (pagina.isUltimaPagina()) {
-            btProximo.setEnabled(false);
-            btProximo.setText("1 →");
-        } else {
-            btProximo.setEnabled(true);
-            btProximo.setText(String.valueOf(pagina.getPaginaAtual()) + " →");
-        }
-        txtPesquisar.setText("");
+//        pesquisarNome = txtPesquisar.getText();
+//        pagina.setNumPagina(0);
+//        carregarTabela();
+//        txtNumPagina.setText(String.valueOf(pagina.getNumPagina() + 1));
+//        btAnterior.setText("← " + String.valueOf(pagina.getNumPagina() + 1));
+//        btAnterior.setEnabled(false);
+//        if (pagina.isUltimaPagina()) {
+//            btProximo.setEnabled(false);
+//            btProximo.setText("1 →");
+//        } else {
+//            btProximo.setEnabled(true);
+//            btProximo.setText(String.valueOf(pagina.getPaginaAtual()) + " →");
+//        }
+//        txtPesquisar.setText("");
     }
     
     public void addClienteSelecionadoListener(ClienteSelecionadoListener clienteSelecionadoListener) {
@@ -145,10 +146,10 @@ public class ClienteTabelaControlador extends javax.swing.JFrame {
     }
     
     private void carregarTabela() {
-// TODO carrefar tabela
-//        pagina = new ClienteServico(new ClienteRepositorio()).acharTodosPaginado(pesquisarNome, pagina.getNumPagina(), pagina.getTamPagina());
-//        ClienteTabelaModelo modelo = new ClienteTabelaModelo(pagina.getConteudo());
-//        tabelaClientes.setModel(modelo);
+        ClienteService service = new ClienteService();
+        service.getAllClientePaginado(null, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTcxMzU1MzUsInVzZXJfbmFtZSI6ImFsZXhAZ21haWwuY29tIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9PUEVSQVRPUiIsIlJPTEVfQURNSU4iXSwianRpIjoiYmY5YjM5ZjYtZTY3NC00ZmI3LWFjNGMtMmZjODQ0NWM1NjMxIiwiY2xpZW50X2lkIjoibXljbGllbnRpZCIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdfQ.g5rwI4xhCdtPz8ArYO_RVy_Qg8l63piI1gw56hhMsRA");
+        ClienteTabelaModelo modelo = new ClienteTabelaModelo(null);
+        tabelaClientes.setModel(modelo);
     }
     
     @Override

@@ -7,7 +7,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import br.com.borsoitech.pdv.layout.util.FormatarUtil;
-import br.com.borsoitech.pdv.model.type.PaginaDTO;
+import br.com.borsoitech.pdv.model.type.Pagina;
 import br.com.borsoitech.pdv.model.type.Produto;
 
 public class ProdutoTabelaControlador extends javax.swing.JFrame {
@@ -15,7 +15,7 @@ public class ProdutoTabelaControlador extends javax.swing.JFrame {
 
 	private String pesquisarNome = "";
    
-    private PaginaDTO<Produto> pagina = new PaginaDTO<>(0, 10, 0);
+    private Pagina<Produto> pagina = new Pagina<>();
     private ProdutoSelecionadoListener produtoSelecionadoListener;
     
     public ProdutoTabelaControlador(Component component) {
@@ -25,10 +25,10 @@ public class ProdutoTabelaControlador extends javax.swing.JFrame {
         carregarTabela();
         
         tabelaProdutos.setRowHeight(29);
-        txtNumPagina.setText(String.valueOf(pagina.getNumPagina() + 1));
-        btAnterior.setText("← " + String.valueOf(pagina.getNumPagina() + 1));
-        btAnterior.setEnabled(false);
-        btProximo.setText(pagina.getPaginaAtual() + " →");
+//        txtNumPagina.setText(String.valueOf(pagina.getTotalPages() + 1));
+//        btAnterior.setText("← " + String.valueOf(pagina.getNumber() + 1));
+//        btAnterior.setEnabled(false);
+//        btProximo.setText(pagina.getNumber() + " →");
         
         txtPesquisar.requestFocus();
         txtPesquisar.addKeyListener(keyPressed());
@@ -76,52 +76,52 @@ public class ProdutoTabelaControlador extends javax.swing.JFrame {
     }
     
     public void paginaAnterior() {
-        if (btAnterior.isEnabled()) {
-            int numPg = pagina.getNumPagina();
-            pagina.setNumPagina(numPg -= 1);
-            txtNumPagina.setText(String.valueOf(pagina.getNumPagina() + 1));
-            if (pagina.getNumPagina() >= 1) {
-                btAnterior.setText("← " + String.valueOf(pagina.getNumPagina()));
-            }
-            btProximo.setEnabled(true);
-            carregarTabela();
-            if (pagina.getNumPagina() < 1) {
-                btAnterior.setEnabled(false);
-            }
-        }
+//        if (btAnterior.isEnabled()) {
+//            int numPg = pagina.getNumPagina();
+//            pagina.setNumPagina(numPg -= 1);
+//            txtNumPagina.setText(String.valueOf(pagina.getNumPagina() + 1));
+//            if (pagina.getNumPagina() >= 1) {
+//                btAnterior.setText("← " + String.valueOf(pagina.getNumPagina()));
+//            }
+//            btProximo.setEnabled(true);
+//            carregarTabela();
+//            if (pagina.getNumPagina() < 1) {
+//                btAnterior.setEnabled(false);
+//            }
+//        }
     }
     
     public void proximaPagina() {
-        if (btProximo.isEnabled()) {
-            btAnterior.setEnabled(true);
-            int numPg = pagina.getNumPagina();
-            pagina.setNumPagina(numPg += 1);
-            txtNumPagina.setText(String.valueOf(pagina.getNumPagina() + 1));
-            if (pagina.getNumPagina() >= 2) {
-                btAnterior.setText("← " + String.valueOf(pagina.getNumPagina()));
-            }
-            carregarTabela();
-            if (pagina.isUltimaPagina()) {
-                btProximo.setEnabled(false);
-            }
-        }
+//        if (btProximo.isEnabled()) {
+//            btAnterior.setEnabled(true);
+//            int numPg = pagina.getNumPagina();
+//            pagina.setNumPagina(numPg += 1);
+//            txtNumPagina.setText(String.valueOf(pagina.getNumPagina() + 1));
+//            if (pagina.getNumPagina() >= 2) {
+//                btAnterior.setText("← " + String.valueOf(pagina.getNumPagina()));
+//            }
+//            carregarTabela();
+//            if (pagina.isUltimaPagina()) {
+//                btProximo.setEnabled(false);
+//            }
+//        }
     }
     
     public void pesquisar() {
-        pesquisarNome = txtPesquisar.getText();
-        pagina.setNumPagina(0);
-        carregarTabela();
-        txtNumPagina.setText(String.valueOf(pagina.getNumPagina() + 1));
-        btAnterior.setText("← " + String.valueOf(pagina.getNumPagina() + 1));
-        btAnterior.setEnabled(false);
-        if (pagina.isUltimaPagina()) {
-            btProximo.setEnabled(false);
-            btProximo.setText("1 →");
-        } else {
-            btProximo.setEnabled(true);
-            btProximo.setText(String.valueOf(pagina.getPaginaAtual()) + " →");
-        }
-        txtPesquisar.setText("");
+//        pesquisarNome = txtPesquisar.getText();
+//        pagina.setNumPagina(0);
+//        carregarTabela();
+//        txtNumPagina.setText(String.valueOf(pagina.getNumPagina() + 1));
+//        btAnterior.setText("← " + String.valueOf(pagina.getNumPagina() + 1));
+//        btAnterior.setEnabled(false);
+//        if (pagina.isUltimaPagina()) {
+//            btProximo.setEnabled(false);
+//            btProximo.setText("1 →");
+//        } else {
+//            btProximo.setEnabled(true);
+//            btProximo.setText(String.valueOf(pagina.getPaginaAtual()) + " →");
+//        }
+//        txtPesquisar.setText("");
     }
     
     public void addProdutoSelecionadoListener(ProdutoSelecionadoListener produtoSelecionadoListener) {

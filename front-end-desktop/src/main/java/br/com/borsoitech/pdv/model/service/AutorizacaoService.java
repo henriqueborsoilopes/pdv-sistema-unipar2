@@ -14,7 +14,7 @@ import retrofit2.Retrofit;
 
 public class AutorizacaoService {
 	
-	private IUserService iUserService;
+    private IUserService iUserService;
 
     public AutorizacaoService() {
         Retrofit retrofit = RetrofitService.getClient();

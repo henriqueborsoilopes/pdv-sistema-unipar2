@@ -1,14 +1,11 @@
 package br.com.borsoitech.pdv.entity;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -20,9 +17,6 @@ public class Produto {
     private Long id;
     private String descricao;
     private Double valorUnit;
-    
-    @OneToMany(mappedBy = "id.produto")
-    private List<ItemVenda> itens = new ArrayList<>();
     
     public Produto() { }
 
@@ -54,10 +48,6 @@ public class Produto {
 
     public void setValorUnit(Double valorUnit) {
         this.valorUnit = valorUnit;
-    }
-
-    public List<ItemVenda> getItens() {
-        return itens;
     }
 
     @Override

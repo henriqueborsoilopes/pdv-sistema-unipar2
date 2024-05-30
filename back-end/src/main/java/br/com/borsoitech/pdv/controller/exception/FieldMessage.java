@@ -1,4 +1,4 @@
-package br.com.borsoitech.pdv.controller.exceptionhandler;
+package br.com.borsoitech.pdv.controller.exception;
 
 import java.io.Serializable;
 

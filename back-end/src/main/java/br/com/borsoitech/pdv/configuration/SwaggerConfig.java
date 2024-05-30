@@ -4,15 +4,14 @@ import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.domain.Page;
 
-import br.com.borsoitech.pdv.entity.Produto;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.security.SecurityScheme.Type;
 import io.swagger.v3.oas.models.servers.Server;
 
 @Configuration
@@ -28,18 +27,12 @@ public class SwaggerConfig {
                         .contact(new Contact()
                                 .name("Henrique Borsoi Lopes")
                                 .email("henriqueborsoilopes@gmail.com")
-                                .url("hhttps://github.com/henriqueborsoilopes")))
+                                .url("https://github.com/henriqueborsoilopes")))
                 .servers(List.of(
                         new Server().url("http://localhost:8080").description("Servidor local")
-                )).components(new Components()
-                        .addSchemas("PageProduto", new Schema<Page<Produto>>()
-                                .type("object")
-                                .addProperty("content", new ArraySchema().items(new Schema<Produto>().$ref("/produtos")))
-                                .addProperty("pageNumber", new Schema<Integer>().type("integer"))
-                                .addProperty("pageSize", new Schema<Integer>().type("integer"))
-                                .addProperty("totalElements", new Schema<Long>().type("integer"))
-                                .addProperty("totalPages", new Schema<Integer>().type("integer"))
-                        )
-                );
+                ))
+                .components(new Components().addSecuritySchemes("bearer-key",
+                        new SecurityScheme().type(Type.HTTP).scheme("bearer").bearerFormat("JWT")))
+                .addSecurityItem(new SecurityRequirement().addList("bearer-key"));
     }
 }

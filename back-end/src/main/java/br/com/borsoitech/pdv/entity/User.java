@@ -42,6 +42,15 @@ public class User implements UserDetails, Serializable {
 		inverseJoinColumns = @JoinColumn(name = "role_id"))	
 	private Set<Role> authorities = new HashSet<>();
 	
+	public boolean hasHole(String roleName) {
+		for (Role role : authorities) {
+			if (role.getAuthority().equals(roleName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public User() { }
 
 	public User(Long id, String name, String email, String password) {
