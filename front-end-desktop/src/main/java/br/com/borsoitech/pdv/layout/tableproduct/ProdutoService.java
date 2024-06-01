@@ -11,14 +11,15 @@ import retrofit2.Retrofit;
 public class ProdutoService {
 	
 	private IProdutoService iProdutoService;
+    private static final String AUTHORIZATION_HEADER_PREFIX = "Bearer ";
 
 	public ProdutoService() {
         Retrofit retrofit = RetrofitService.getClient();
         iProdutoService = retrofit.create(IProdutoService.class);
     }
 
-    public void getAllClientePaginado(String nome, String authHeader, final ProdutoCallback callback) {
-        Call<Pagina<Produto>> request = iProdutoService.getAllProdutoPaginado("Bearer " + authHeader);
+    public void getAllProdutoPaginado(String nome, String authHeader, int numPg, IProdutoCallback callback) {
+        Call<Pagina<Produto>> request = iProdutoService.getAllProdutoPaginado(AUTHORIZATION_HEADER_PREFIX + authHeader, numPg);
 
         request.enqueue(new Callback<Pagina<Produto>>() {
             @Override

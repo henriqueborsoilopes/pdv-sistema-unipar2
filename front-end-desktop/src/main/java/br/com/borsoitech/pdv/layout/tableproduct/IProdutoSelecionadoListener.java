@@ -2,7 +2,7 @@ package br.com.borsoitech.pdv.layout.tableproduct;
 
 import br.com.borsoitech.pdv.model.type.Produto;
 
-public interface ProdutoSelecionadoListener {
+public interface IProdutoSelecionadoListener {
     
     void produtoSelecionado(Produto produto);
 }

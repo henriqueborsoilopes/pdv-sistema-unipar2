@@ -6,101 +6,98 @@ import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
+import br.com.borsoitech.pdv.layout.login.SessionManager;
+import br.com.borsoitech.pdv.layout.popup.NotificationPopup;
+import br.com.borsoitech.pdv.layout.report.RelatorioControlador;
 import br.com.borsoitech.pdv.layout.tableclient.ClienteTabelaControlador;
 import br.com.borsoitech.pdv.layout.tablepayment.PagamentoTabelaControlador;
 import br.com.borsoitech.pdv.layout.tableproduct.ProdutoTabelaControlador;
 import br.com.borsoitech.pdv.layout.util.FormatarUtil;
-import br.com.borsoitech.pdv.model.type.Cliente;
-import br.com.borsoitech.pdv.model.type.ItemVenda;
-import br.com.borsoitech.pdv.model.type.Pagamento;
-import br.com.borsoitech.pdv.model.type.Produto;
-import br.com.borsoitech.pdv.model.type.Venda;
+import br.com.borsoitech.pdv.model.type.*;
 
-public class MainControlador extends javax.swing.JFrame {
-    
+public class VendaControlador extends javax.swing.JFrame {
+
     private Integer qtdProduto = 1;
     private Double descontoItem = 0.00;
     private Double descontoVenda = 0.00;
     private Produto produto;
     private Cliente cliente;
     private Venda venda;
-    
-    public MainControlador() {
+    private LoginResponse loginResponse;
+
+    public VendaControlador() {
         initComponents();
-        setLocationRelativeTo(null);
-        setExtendedState(MainControlador.NORMAL);
+        verificarEstadoLogin();
         novaVenda();
         atulizarColunasLinhasTabelaItem();
         atulizarColunasLinhasTabelaPagamento();
-        
+
         background.requestFocus();
-        background.addKeyListener(keyPressed());
-        btAdicionarProduto.addKeyListener(keyPressed());
-        btAumentarQtd.addKeyListener(keyPressed());
-        btDiminuirQtd.addKeyListener(keyPressed());
-        btNovaVenda.addKeyListener(keyPressed());
-        btNovoCliente.addKeyListener(keyPressed());
-        btNovoProduto.addKeyListener(keyPressed());
-        btSalvarVenda.addKeyListener(keyPressed());
-        btAdicionarPagamento.addKeyListener(keyPressed());
-        jButton6.addKeyListener(keyPressed());
-        tabelaItens.addKeyListener(keyPressed());
-        tabelaPagamentos.addKeyListener(keyPressed());
-        txtQtd.addKeyListener(keyPressed());
-        txtDescontoProduto.addKeyListener(keyPressed());
-        
-        btAdicionarProduto.addActionListener((ActionEvent e) -> {
-            addProduto();
-        });
-        
-        btNovoCliente.addActionListener((ActionEvent e) -> {
-            abrirClienteTabelaControlador();
-        });
-        
-        btNovoProduto.addActionListener((ActionEvent e) -> {
-            abrirProdutoTabelaControlador();
-        });
-        
-        btNovaVenda.addActionListener((ActionEvent e) -> {
-            novaVenda();
-        });
-        
-        btSalvarVenda.addActionListener((ActionEvent e) -> {
-            salvarVenda();
-        });
-        
-        btDiminuirQtd.addActionListener((ActionEvent e) -> {
-            diminuirQtd();
-        });
-        
-        btAumentarQtd.addActionListener((ActionEvent e) -> {
-            aumentarQtd();
-        });
-        
-        btAdicionarPagamento.addActionListener((ActionEvent e) -> {
-            abrirPagamentoTabelaControlador();
-        });
-        
+        KeyAdapter keyAdapter = keyPressed();
+        addGlobalKeyListeners(keyAdapter);
+        addButtonActionListeners();
+        configureFocusListeners();
+    }
+
+    private void verificarEstadoLogin() {
+        loginResponse = SessionManager.getInstance().getLoginResponse();
+        if (loginResponse == null || loginResponse.getAccess_token() == null) {
+            JOptionPane.showMessageDialog(this, "Usuário não está autenticado. Favor fazer o login.");
+            // TODO Redirecionar para a tela de login ou encerrar a aplicação
+        }
+    }
+
+    private void addGlobalKeyListeners(KeyAdapter keyAdapter) {
+        background.addKeyListener(keyAdapter);
+        btAdicionarProduto.addKeyListener(keyAdapter);
+        btAumentarQtd.addKeyListener(keyAdapter);
+        btDiminuirQtd.addKeyListener(keyAdapter);
+        btNovaVenda.addKeyListener(keyAdapter);
+        btNovoCliente.addKeyListener(keyAdapter);
+        btNovoProduto.addKeyListener(keyAdapter);
+        btSalvarVenda.addKeyListener(keyAdapter);
+        btAdicionarPagamento.addKeyListener(keyAdapter);
+        jButton6.addKeyListener(keyAdapter);
+        tabelaItens.addKeyListener(keyAdapter);
+        tabelaPagamentos.addKeyListener(keyAdapter);
+        txtQtd.addKeyListener(keyAdapter);
+        txtDescontoProduto.addKeyListener(keyAdapter);
+    }
+
+    private void addButtonActionListeners() {
+        btAdicionarProduto.addActionListener((ActionEvent e) -> addProduto());
+        btNovoCliente.addActionListener((ActionEvent e) -> abrirClienteTabelaControlador());
+        btNovoProduto.addActionListener((ActionEvent e) -> abrirProdutoTabelaControlador());
+        btNovaVenda.addActionListener((ActionEvent e) -> novaVenda());
+        btSalvarVenda.addActionListener((ActionEvent e) -> salvarVenda());
+        btDiminuirQtd.addActionListener((ActionEvent e) -> diminuirQtd());
+        btAumentarQtd.addActionListener((ActionEvent e) -> aumentarQtd());
+        btAdicionarPagamento.addActionListener((ActionEvent e) -> abrirPagamentoTabelaControlador());
+    }
+
+    private void configureFocusListeners() {
         txtDescontoProduto.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
                 txtDescontoProduto.setText("");
             }
+
             @Override
             public void focusLost(FocusEvent e) {
                 String valor = txtDescontoProduto.getText();
-                descontoItem = valor.isEmpty() ? descontoItem : FormatarUtil.valorParaDouble(valor); 
+                descontoItem = valor.isEmpty() ? descontoItem : FormatarUtil.valorParaDouble(valor);
                 txtDescontoProduto.setText(FormatarUtil.valorParaBR(descontoItem));
             }
         });
-        
+
         txtDescontoVenda.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
                 txtDescontoVenda.setText("");
             }
+
             @Override
             public void focusLost(FocusEvent e) {
                 atualizarDescontoVenda();
@@ -108,12 +105,13 @@ public class MainControlador extends javax.swing.JFrame {
                 atualizarCamposVendaAtual();
             }
         });
-        
+
         txtQtd.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
                 txtQtd.setText("");
             }
+
             @Override
             public void focusLost(FocusEvent e) {
                 String valor = txtQtd.getText();
@@ -121,48 +119,77 @@ public class MainControlador extends javax.swing.JFrame {
                 txtQtd.setText(String.valueOf(qtdProduto));
             }
         });
-        
+
         txtDescontoVenda.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                switch (e.getKeyCode()) {
-                    case KeyEvent.VK_ENTER : {
-                        atualizarDescontoVenda();
-                        atualizarVenda();
-                        atualizarCamposVendaAtual();
-                    }
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    atualizarDescontoVenda();
+                    atualizarVenda();
+                    atualizarCamposVendaAtual();
                 }
             }
         });
     }
-    
+
     private void salvarVenda() {
-        /* VendaServico servico = new VendaServico(new VendaRepositorio()); TODO venda service 
-        try {
-            Object[] options = {"Imprimir", "Não"};
-            venda = servico.inserir(venda);
-            int n = JOptionPane.showOptionDialog(null, 
-                    "Gostaria de imprimir o comprovante?", 
-                    "Comprovante", JOptionPane.YES_NO_CANCEL_OPTION,  
-                    JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
-            if (n == 0) {
-                RelatorioControlador.carregaRelatori(venda.getId());
+        VendaService vendaService = new VendaService();
+
+        vendaService.salvarVenda(loginResponse.getAccess_token(), venda, new IVendaSalvaCallback() {
+            @Override
+            public void onVendaSalva(Long vendaId) {
+                SwingUtilities.invokeLater(() -> {
+                    showNotification("Comprovante gerado com sucesso!");
+                    int n = JOptionPane.showOptionDialog(null,
+                            "Gostaria de imprimir o comprovante?",
+                            "Comprovante", JOptionPane.YES_NO_CANCEL_OPTION,
+                            JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Imprimir", "Não"}, "Não");
+                    if (n == 0) {
+                        new RelatorioControlador(loginResponse.getAccess_token(), vendaId);
+                    }
+                    novaVenda();
+                });
             }
-            novaVenda();
-        } catch (BancoDadosExcecao ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE, null);
-        } catch (ValidacaoExcecao ex) {
-            JOptionPane.showMessageDialog(this, ex.getDescricao(), ex.getCampo(), JOptionPane.ERROR_MESSAGE, null);
-        }*/
+
+            @Override
+            public void onFailure(String errorMessage) {
+                SwingUtilities.invokeLater(() -> {
+                    JOptionPane.showMessageDialog(VendaControlador.this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE, null);
+                });
+            }
+        });
     }
-    
+
+    private void atualizaVenda() {
+        VendaService vendaService = new VendaService();
+
+        vendaService.atualizarVenda(loginResponse.getAccess_token(), venda, new IVendaAtualizaCallback() {
+            @Override
+            public void onVendaAtualizada(Venda vendaAtualizada) {
+                // TODO Este método não é relevante para a operação de salvar uma nova venda
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                SwingUtilities.invokeLater(() -> {
+                    JOptionPane.showMessageDialog(VendaControlador.this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE, null);
+                });
+            }
+        });
+    }
+
+    private void showNotification(String message) {
+        NotificationPopup popup = new NotificationPopup(message);
+        popup.showPopup();
+    }
+
     private void novaVenda() {
         venda = new Venda(null, 0.0, null);
         atualizarCamposNovaVenda();
         atualizarItemVendaTabela();
         atualizarPagamentoTabela();
     }
-    
+
     private void abrirClienteTabelaControlador() {
         ClienteTabelaControlador controlador = new ClienteTabelaControlador(this);
         controlador.addClienteSelecionadoListener((Cliente cliente1) -> {
@@ -171,23 +198,23 @@ public class MainControlador extends javax.swing.JFrame {
             atualizarVenda();
             atualizarCamposVendaAtual();
             cliente = null;
-            synchronized (MainControlador.this) {
-                MainControlador.this.notify();
+            synchronized (VendaControlador.this) {
+                VendaControlador.this.notify();
             }
         });
     }
-    
+
     private void abrirProdutoTabelaControlador() {
         ProdutoTabelaControlador controlador = new ProdutoTabelaControlador(this);
         controlador.addProdutoSelecionadoListener((Produto produto1) -> {
             this.produto = produto1;
             exibirProduto();
-            synchronized (MainControlador.this) {
-                MainControlador.this.notify();
+            synchronized (VendaControlador.this) {
+                VendaControlador.this.notify();
             }
         });
     }
-    
+
     private void abrirPagamentoTabelaControlador() {
         if (venda.vendaQuitada()) {
             return;
@@ -197,35 +224,51 @@ public class MainControlador extends javax.swing.JFrame {
             pagamento1.setVenda(venda);
             venda.addPagamento(pagamento1);
             atualizarPagamentoTabela();
-            synchronized (MainControlador.this) {
-                MainControlador.this.notify();
+            synchronized (VendaControlador.this) {
+                VendaControlador.this.notify();
             }
         });
     }
-    
+
     private KeyAdapter keyPressed() {
         return new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 switch (e.getKeyCode()) {
-                    case KeyEvent.VK_UP : aumentarQtd();
-                    case KeyEvent.VK_DOWN : diminuirQtd();
-                    case KeyEvent.VK_F2 : abrirClienteTabelaControlador();
-                    case KeyEvent.VK_F1 : abrirProdutoTabelaControlador();
-                    case KeyEvent.VK_ENTER : addProduto();
-                    case KeyEvent.VK_F9 : novaVenda();
-                    case KeyEvent.VK_F5 : salvarVenda();
-                    case KeyEvent.VK_F3 : abrirPagamentoTabelaControlador();
+                    case KeyEvent.VK_UP:
+                        aumentarQtd();
+                        break;
+                    case KeyEvent.VK_DOWN:
+                        diminuirQtd();
+                        break;
+                    case KeyEvent.VK_F2:
+                        abrirClienteTabelaControlador();
+                        break;
+                    case KeyEvent.VK_F1:
+                        abrirProdutoTabelaControlador();
+                        break;
+                    case KeyEvent.VK_ENTER:
+                        addProduto();
+                        break;
+                    case KeyEvent.VK_F9:
+                        novaVenda();
+                        break;
+                    case KeyEvent.VK_F5:
+                        salvarVenda();
+                        break;
+                    case KeyEvent.VK_F3:
+                        abrirPagamentoTabelaControlador();
+                        break;
                 }
             }
         };
     }
-    
+
     private void atualizarDescontoVenda() {
         String valor = txtDescontoVenda.getText();
         descontoVenda = valor.isEmpty() ? descontoVenda : FormatarUtil.valorParaDouble(valor);
     }
-    
+
     private void atualizarCamposNovaVenda() {
         qtdProduto = 1;
         descontoItem = 0.00;
@@ -241,7 +284,7 @@ public class MainControlador extends javax.swing.JFrame {
         txtCodigoCliente.setText("");
         txtNomeCliente.setText("");
     }
-    
+
     private void atualizarCamposVendaAtual() {
         qtdProduto = 1;
         descontoItem = 0.00;
@@ -254,23 +297,23 @@ public class MainControlador extends javax.swing.JFrame {
         txtDescricaoProduto.setText("");
         txtQtd.setText(String.valueOf(qtdProduto));
     }
-    
+
     private void exibirProduto() {
         txtCodigoProduto.setText(produto.getId().toString());
         txtDescricaoProduto.setText(produto.getDescricao());
     }
-    
+
     private void exibirCliente() {
         txtCodigoCliente.setText(cliente.getId().toString());
         txtNomeCliente.setText(cliente.getNome());
     }
-    
+
     private void addProduto() {
         addItemVenda();
         atualizarItemVendaTabela();
         atualizarCamposVendaAtual();
     }
-    
+
     private void addItemVenda() {
         if (produto != null) {
             for (ItemVenda item : venda.getItens()) {
@@ -284,39 +327,39 @@ public class MainControlador extends javax.swing.JFrame {
             venda.addItem(new ItemVenda(venda, produto, produto.getDescricao(), qtdProduto, produto.getValorUnit(), descontoItem));
             produto = null;
         }
-    } 
-    
+    }
+
     private void aumentarQtd() {
         qtdProduto += 1;
         txtQtd.setText(String.valueOf(qtdProduto));
     }
-    
+
     private void diminuirQtd() {
         if (qtdProduto > 1) {
             qtdProduto -= 1;
             txtQtd.setText(String.valueOf(qtdProduto));
         }
     }
-    
+
     private void atulizarColunasLinhasTabelaItem() {
         tabelaItens.setRowHeight(30);
     }
-    
+
     private void atulizarColunasLinhasTabelaPagamento() {
         tabelaPagamentos.setRowHeight(30);
     }
-    
+
     private void atualizarPagamentoTabela() {
-        MainPagamentoTabelaModelo modelo = new MainPagamentoTabelaModelo(venda.getPagamentos());
+        VendaPagamentoTabelaModelo modelo = new VendaPagamentoTabelaModelo(venda.getPagamentos());
         tabelaPagamentos.setModel(modelo);
         atualizarCamposVendaAtual();
     }
-    
+
     private void atualizarItemVendaTabela() {
-        MainItemVendaTabelaModelo modelo = new MainItemVendaTabelaModelo(venda.getItens());
+        VendaItemVendaTabelaModelo modelo = new VendaItemVendaTabelaModelo(venda.getItens());
         tabelaItens.setModel(modelo);
     }
-    
+
     private void atualizarVenda() {
         venda.setCliente(cliente);
         venda.setDesconto(descontoVenda);
@@ -324,14 +367,12 @@ public class MainControlador extends javax.swing.JFrame {
 
     @Override
     public void dispose() {
-        int resposta = JOptionPane.showConfirmDialog(MainControlador.this, "Deseja realmente sair do programa?", "Confirmação", JOptionPane.YES_NO_OPTION);
+        int resposta = JOptionPane.showConfirmDialog(VendaControlador.this, "Deseja realmente sair do programa?", "Confirmação", JOptionPane.YES_NO_OPTION);
         if (resposta == JOptionPane.YES_OPTION) {
             super.dispose();
         }
     }
-    
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -428,6 +469,8 @@ public class MainControlador extends javax.swing.JFrame {
         setBackground(new java.awt.Color(0, 102, 102));
         setName("main"); // NOI18N
         setSize(new java.awt.Dimension(1200, 800));
+        setLocationRelativeTo(null);
+        setExtendedState(VendaControlador.NORMAL);
 
         background.setBackground(new java.awt.Color(51, 51, 51));
         background.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -901,9 +944,8 @@ public class MainControlador extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;
     private javax.swing.JButton btAdicionarPagamento;
     private javax.swing.JButton btAdicionarProduto;
@@ -944,6 +986,4 @@ public class MainControlador extends javax.swing.JFrame {
     private javax.swing.JTextField txtSaldoFinal;
     private javax.swing.JTextField txtTotalPago;
     private javax.swing.JTextField txtValorTotalVenda;
-    // End of variables declaration//GEN-END:variables
-
 }

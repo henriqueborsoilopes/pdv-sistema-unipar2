@@ -1,22 +1,32 @@
 package br.com.borsoitech.pdv.layout.login;
 
-import java.awt.event.ActionEvent;
+import br.com.borsoitech.pdv.layout.pdv.VendaControlador;
 
-import br.com.borsoitech.pdv.layout.pdv.MainControlador;
+import javax.swing.*;
 
 public class LoginControlador extends javax.swing.JFrame {
 	private static final long serialVersionUID = 1L;
 	
 	public LoginControlador() {
         initComponents();
-        setLocationRelativeTo(null);
-        setExtendedState(LoginControlador.NORMAL);
-        
-        btnEntrar.addActionListener((ActionEvent e) -> {
-            AutorizacaoService loginService = new AutorizacaoService();
-            loginService.login("myclientid", "myclientsecret", txtEmail.getText(), txtSenha.getText(), "password");
-            new MainControlador().setVisible(true);
-            dispose();
+        btnEntrar.addActionListener(e -> efetuarLogin());
+    }
+
+    private void efetuarLogin() {
+        String email = txtEmail.getText();
+        String senha = txtSenha.getText();
+
+        LoginService loginService = new LoginService();
+        loginService.login("myclientid", "myclientsecret", email, senha, "password", new ILogin() {
+            @Override
+            public void isAutorizado(boolean isLogger) {
+                if (isLogger) {
+                    new VendaControlador().setVisible(true);
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(LoginControlador.this, "Credenciais inválidas. Tente novamente.");
+                }
+            }
         });
     }
     
@@ -24,14 +34,9 @@ public class LoginControlador extends javax.swing.JFrame {
     public void dispose() {
         super.dispose();
     }
-    
-    @SuppressWarnings("unchecked")
+
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jTextField3 = new javax.swing.JTextField();
-        jMenuItem1 = new javax.swing.JMenuItem();
         background = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         btnEntrar = new javax.swing.JButton();
@@ -45,55 +50,8 @@ public class LoginControlador extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Código", "Descrição", "QTD", "Valor Unit", "Desconto", "Total", "Editar", "Exclir"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Long.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Object.class, java.lang.Object.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, true
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setMinWidth(50);
-            jTable1.getColumnModel().getColumn(0).setMaxWidth(50);
-            jTable1.getColumnModel().getColumn(2).setMinWidth(60);
-            jTable1.getColumnModel().getColumn(2).setMaxWidth(60);
-            jTable1.getColumnModel().getColumn(3).setMinWidth(70);
-            jTable1.getColumnModel().getColumn(3).setMaxWidth(70);
-            jTable1.getColumnModel().getColumn(4).setMinWidth(70);
-            jTable1.getColumnModel().getColumn(4).setMaxWidth(70);
-            jTable1.getColumnModel().getColumn(5).setMinWidth(70);
-            jTable1.getColumnModel().getColumn(5).setMaxWidth(70);
-            jTable1.getColumnModel().getColumn(6).setMinWidth(50);
-            jTable1.getColumnModel().getColumn(6).setMaxWidth(50);
-            jTable1.getColumnModel().getColumn(7).setMinWidth(50);
-            jTable1.getColumnModel().getColumn(7).setMaxWidth(50);
-        }
-
-        jTextField3.setText("00,00");
-
-        jMenuItem1.setText("jMenuItem1");
-
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
         setTitle("PDV");
         setBackground(new java.awt.Color(0, 102, 102));
         setName("main"); // NOI18N
@@ -267,25 +225,18 @@ public class LoginControlador extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;
     private javax.swing.JButton btnEntrar;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtSenha;
-    // End of variables declaration//GEN-END:variables
-
 }

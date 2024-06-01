@@ -4,24 +4,19 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import br.com.borsoitech.pdv.layout.util.FormatarUtil;
-import br.com.borsoitech.pdv.model.type.Pagamento;
 import br.com.borsoitech.pdv.model.type.enums.TipoPagamento;
 
 public class PagamentoTabelaControlador extends javax.swing.JFrame {
-	private static final long serialVersionUID = 1L;
-	
-	private Double valorTotalVenda = 0.0;
+    private static final long serialVersionUID = 1L;
+
+    private Double valorTotalVenda = 0.0;
     private String tipoPagamento = "";
     private Double valorPago = 0.0;
     private Integer qtdParcela = 1;
-    
-    private PagamentoSelecionadoListener pagamentoSelecionadoListener;
+
+    private IPagamentoSelecionadoListener IPagamentoSelecionadoListener;
 
     public PagamentoTabelaControlador(Component component, Double valorTotal) {
         this.valorTotalVenda = valorTotal;
@@ -30,16 +25,13 @@ public class PagamentoTabelaControlador extends javax.swing.JFrame {
         setLocationRelativeTo(component);
         setVisible(true);
         carregarDados();
-        
-        comboTipoPagamento.addKeyListener(keyPressed());
-        comboQtdParcela.addKeyListener(keyPressed());
-        txtValorParcela.addKeyListener(keyPressed());
-        
+
         txtValorEscolhido.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
                 txtValorEscolhido.setText("");
             }
+
             @Override
             public void focusLost(FocusEvent e) {
                 valorPago = txtValorEscolhido.getText().isEmpty() ? valorTotalVenda : Double.valueOf(txtValorEscolhido.getText());
@@ -47,7 +39,7 @@ public class PagamentoTabelaControlador extends javax.swing.JFrame {
                 atualizarPagamento();
             }
         });
-        
+
         comboTipoPagamento.addActionListener((ActionEvent e) -> {
             tipoPagamento = (String) comboTipoPagamento.getSelectedItem();
             TipoPagamento tipo = TipoPagamento.paraEnum(tipoPagamento);
@@ -56,20 +48,13 @@ public class PagamentoTabelaControlador extends javax.swing.JFrame {
             }
             atualizarPagamento();
         });
-        
+
         comboQtdParcela.addActionListener((ActionEvent e) -> {
             qtdParcela = Integer.valueOf((String) comboQtdParcela.getSelectedItem());
             atualizarPagamento();
         });
-        
-        btConfirmar.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                setPagamentoSelecionado();
-            }
-        });
     }
-    
+
     private void carregarDados() {
         for (TipoPagamento tipo : TipoPagamento.values()) {
             comboTipoPagamento.addItem(tipo.getDescricao());
@@ -79,37 +64,19 @@ public class PagamentoTabelaControlador extends javax.swing.JFrame {
         txtValorEscolhido.setText(FormatarUtil.valorParaBR(valorTotalVenda));
         txtValorParcela.setText(FormatarUtil.valorParaBR(valorTotalVenda));
     }
-        
-    private KeyAdapter keyPressed() {
-        return new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                switch (e.getKeyCode()) {
-                    case KeyEvent.VK_ENTER : setPagamentoSelecionado();
-                }
-            }
-        };
-    }
-    
+
     private void atualizarPagamento() {
         Double resultado = valorPago / qtdParcela;
         txtValorParcela.setText(FormatarUtil.valorParaBR(resultado));
     }
-    
-    public void addPagamentoSelecionadoListener(PagamentoSelecionadoListener pagamentoSelecionadoListener) {
-        this.pagamentoSelecionadoListener = pagamentoSelecionadoListener;
+
+    public void addPagamentoSelecionadoListener(IPagamentoSelecionadoListener IPagamentoSelecionadoListener) {
+        this.IPagamentoSelecionadoListener = IPagamentoSelecionadoListener;
     }
-    
-    private void setPagamentoSelecionado() {
-        if (pagamentoSelecionadoListener != null) {
-            pagamentoSelecionadoListener.pagamentoSelecionado(new Pagamento(null, qtdParcela, valorPago, TipoPagamento.paraEnum(tipoPagamento), null));
-        }
-        dispose();
-    }
-    
+
     @Override
     public void dispose() {
-        super.dispose(); 
+        super.dispose();
     }
 
     private void initComponents() {

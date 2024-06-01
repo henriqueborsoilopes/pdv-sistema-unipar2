@@ -5,57 +5,61 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JOptionPane;
 
+import br.com.borsoitech.pdv.layout.login.SessionManager;
 import br.com.borsoitech.pdv.model.type.Cliente;
+import br.com.borsoitech.pdv.model.type.LoginResponse;
 import br.com.borsoitech.pdv.model.type.Pagina;
 
 public class ClienteTabelaControlador extends javax.swing.JFrame {
     private static final long serialVersionUID = 1L;
 
-	private String pesquisarNome = "";
-   
-    private Pagina<Cliente> pagina = new Pagina<>();
-    private ClienteSelecionadoListener clienteSelecionadoListener;
-    
+    private Pagina<Cliente> pagina;
+    private int pageNum;
+    private ScheduledExecutorService scheduler;
+    private LoginResponse loginResponse;
+    private String pesquisarNome = "";
+    private IClienteSelecionadoListener IClienteSelecionadoListener;
+
     public ClienteTabelaControlador(Component component) {
         initComponents();
+        verificarEstadoLogin();
+        scheduler = Executors.newScheduledThreadPool(1);
+        scheduler.scheduleAtFixedRate(this::carregarTabela, 0, 5, TimeUnit.MINUTES);
         setLocationRelativeTo(component);
         setVisible(true);
         carregarTabela();
-        
+
         tabelaClientes.setRowHeight(29);
-//        txtNumPagina.setText(String.valueOf(pagina.getNumPagina() + 1));
-//        btAnterior.setText("← " + String.valueOf(pagina.getNumPagina() + 1));
-//        btAnterior.setEnabled(false);
-//        btProximo.setText(pagina.getPaginaAtual() + " →");
-        
         txtPesquisar.requestFocus();
         txtPesquisar.addKeyListener(keyPressed());
-        
+
         tabelaClientes.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 setClienteSelecionado(tabelaClientes.rowAtPoint(e.getPoint()));
             }
         });
-        
+
         btAnterior.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 paginaAnterior();
             }
         });
-        
+
         btProximo.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 proximaPagina();
-          }
+            }
         });
-        
+
         btPesquisar.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -63,97 +67,89 @@ public class ClienteTabelaControlador extends javax.swing.JFrame {
             }
         });
     }
-        
+
+    private void verificarEstadoLogin() {
+        loginResponse = SessionManager.getInstance().getLoginResponse();
+        if (loginResponse == null || loginResponse.getAccess_token() == null) {
+            JOptionPane.showMessageDialog(this, "Usuário não está autenticado. Favor fazer o login.");
+            // TODO Redirecionar para a tela de login ou encerrar a aplicação
+        }
+    }
+
     private KeyAdapter keyPressed() {
         return new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 switch (e.getKeyCode()) {
-                    case KeyEvent.VK_ENTER : pesquisar();
-                    case KeyEvent.VK_LEFT : paginaAnterior();
-                    case KeyEvent.VK_RIGHT : proximaPagina();
+                    case KeyEvent.VK_ENTER:
+                        pesquisar();
+                        break;
+                    case KeyEvent.VK_LEFT:
+                        paginaAnterior();
+                        break;
+                    case KeyEvent.VK_RIGHT:
+                        proximaPagina();
+                        break;
                 }
             }
         };
     }
-    
+
     public void paginaAnterior() {
-//        if (btAnterior.isEnabled()) {
-//            int numPg = pagina.getNumPagina();
-//            pagina.setNumPagina(numPg -= 1);
-//            txtNumPagina.setText(String.valueOf(pagina.getNumPagina() + 1));
-//            if (pagina.getNumPagina() >= 1) {
-//                btAnterior.setText("← " + String.valueOf(pagina.getNumPagina()));
-//            }
-//            btProximo.setEnabled(true);
-//            carregarTabela();
-//            if (pagina.getNumPagina() < 1) {
-//                btAnterior.setEnabled(false);
-//            }
-//        }
+        if (btAnterior.isEnabled() && !pagina.isFirst()) {
+            pageNum = pagina.getNumber() - 1;
+            carregarTabela();
+        }
     }
-    
+
     public void proximaPagina() {
-//        if (btProximo.isEnabled()) {
-//            btAnterior.setEnabled(true);
-//            int numPg = pagina.getNumPagina();
-//            pagina.setNumPagina(numPg += 1);
-//            txtNumPagina.setText(String.valueOf(pagina.getNumPagina() + 1));
-//            if (pagina.getNumPagina() >= 2) {
-//                btAnterior.setText("← " + String.valueOf(pagina.getNumPagina()));
-//            }
-//            carregarTabela();
-//            if (pagina.isUltimaPagina()) {
-//                btProximo.setEnabled(false);
-//            }
-//        }
+        if (btProximo.isEnabled() && !pagina.isLast()) {
+            pageNum = pagina.getNumber() + 1;
+            carregarTabela();
+        }
     }
-    
+
     public void pesquisar() {
-//        pesquisarNome = txtPesquisar.getText();
-//        pagina.setNumPagina(0);
-//        carregarTabela();
-//        txtNumPagina.setText(String.valueOf(pagina.getNumPagina() + 1));
-//        btAnterior.setText("← " + String.valueOf(pagina.getNumPagina() + 1));
-//        btAnterior.setEnabled(false);
-//        if (pagina.isUltimaPagina()) {
-//            btProximo.setEnabled(false);
-//            btProximo.setText("1 →");
-//        } else {
-//            btProximo.setEnabled(true);
-//            btProximo.setText(String.valueOf(pagina.getPaginaAtual()) + " →");
-//        }
-//        txtPesquisar.setText("");
+        pesquisarNome = txtPesquisar.getText();
+        carregarTabela();
     }
-    
-    public void addClienteSelecionadoListener(ClienteSelecionadoListener clienteSelecionadoListener) {
-        this.clienteSelecionadoListener = clienteSelecionadoListener;
+
+    public void addClienteSelecionadoListener(IClienteSelecionadoListener IClienteSelecionadoListener) {
+        this.IClienteSelecionadoListener = IClienteSelecionadoListener;
     }
-    
+
     private void setClienteSelecionado(int rowIndex) {
         if (rowIndex >= 0 && rowIndex < tabelaClientes.getRowCount()) {
-            String id = tabelaClientes.getValueAt(rowIndex, 0).toString(); 
+            String id = tabelaClientes.getValueAt(rowIndex, 0).toString();
             String nome = tabelaClientes.getValueAt(rowIndex, 1).toString();
             String cpf = tabelaClientes.getValueAt(rowIndex, 2).toString();
             String telefone = tabelaClientes.getValueAt(rowIndex, 3).toString();
-            
+
             Cliente cliente = new Cliente(Long.valueOf(id), nome, telefone, cpf);
-            
-            if (clienteSelecionadoListener != null) {
-                clienteSelecionadoListener.clienteSelecionado(cliente);
+
+            if (IClienteSelecionadoListener != null) {
+                IClienteSelecionadoListener.clienteSelecionado(cliente);
             }
-            
+
             dispose();
         }
     }
-    
+
     private void carregarTabela() {
         ClienteService service = new ClienteService();
-        service.getAllClientePaginado("nome", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTcxMzIwOTYsInVzZXJfbmFtZSI6ImFsZXhAZ21haWwuY29tIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9PUEVSQVRPUiIsIlJPTEVfQURNSU4iXSwianRpIjoiMzNkNzEzMWMtOTRiZS00NDM3LWE2NzQtNDE4ZWU1NWU3ZDZhIiwiY2xpZW50X2lkIjoibXljbGllbnRpZCIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdfQ.hQE456eht2sFQAujKDOmDv-SE81q2w2aMpMu2uB8ckU", new ClienteCallback() {
+        service.getAllClientesPaginados(pesquisarNome, loginResponse.getAccess_token(), pageNum, new IClienteCallback() {
             @Override
-            public void onPaginaLoaded(Pagina<Cliente> pagina) {
-            	ClienteTabelaModelo modelo = new ClienteTabelaModelo(pagina.getContent());
+            public void onPaginaLoaded(Pagina<Cliente> pagina1) {
+                ClienteTabelaModelo modelo = new ClienteTabelaModelo(pagina1.getContent());
+                tabelaClientes = modelo.setColumnSize(tabelaClientes);
+                tabelaClientes = modelo.setColumnAlignment(tabelaClientes);
                 tabelaClientes.setModel(modelo);
+                pagina = pagina1;
+                txtNumPagina.setText(String.valueOf(pagina.getNumber() + 1 + "/" + pagina.getTotalPages()));
+                btAnterior.setText("←");
+                btAnterior.setEnabled(!pagina.isFirst());
+                btProximo.setText("→");
+                btProximo.setEnabled(!pagina.isLast());
             }
 
             @Override
@@ -162,10 +158,11 @@ public class ClienteTabelaControlador extends javax.swing.JFrame {
             }
         });
     }
-    
+
     @Override
     public void dispose() {
-        super.dispose(); 
+        scheduler.shutdown();
+        super.dispose();
     }
 
     private void initComponents() {

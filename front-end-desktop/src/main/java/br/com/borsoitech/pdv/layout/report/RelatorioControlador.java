@@ -1,35 +1,59 @@
 package br.com.borsoitech.pdv.layout.report;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
+import java.awt.*;
 
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.view.JasperViewer;
+import br.com.borsoitech.pdv.layout.popup.NotificationPopup;
 
-public class RelatorioControlador {
+import javax.swing.*;
 
-    private static final String COMPROVANTE_VENDA_PATH = "C:\\Projetos\\pdv-sistema-unipar\\pdvsistema\\src\\main\\java\\br\\unipar\\pdvsistema\\tela\\relatorio\\comprovante_venda.jasper";
-    
-    public static void carregaRelatori(Long id_venda) {
-        try (Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/pdvsistema", "postgres", "12345678")) {
-            JasperReport jasperReport = (JasperReport) JRLoader.loadObjectFromFile(COMPROVANTE_VENDA_PATH);
-            Map<String, Object> parametros = new HashMap<>();
-            parametros.put("ID_VENDA", id_venda);
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, conn);
-            JasperViewer viewer = new JasperViewer(jasperPrint, false);
-            viewer.setVisible(true);
-            
-//            String outputFile = "C:\\Projetos\\pdv-sistema-unipar\\pdvsistema\\src\\main\\java\\br\\unipar\\pdvsistema\\tela\\relatorio\\";
-//            JasperExportManager.exportReportToPdfFile(jasperPrint, outputFile);
-//            System.out.println("PDF gerado em: " + outputFile);
-        } catch (JRException | SQLException e) {
-        }
+public class RelatorioControlador extends JFrame {
+
+    private JProgressBar progressBar;
+
+    private RelatorioService relatorioService = new RelatorioService();
+
+    public RelatorioControlador(String authorization, Long id_venda) {
+        setTitle("Gerar Relatório");
+        setSize(400, 150);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        progressBar = new JProgressBar();
+        progressBar.setPreferredSize(new Dimension(300, 10));
+        progressBar.setForeground(Color.BLUE);
+        progressBar.setStringPainted(false);
+        progressBar.setValue(0);
+        progressBar.setIndeterminate(true);
+
+        relatorioService.gerarRelatorio(authorization, id_venda, new IRelatorioCallback() {
+            @Override
+            public void onRelatorioGerado() {
+                progressBar.setIndeterminate(false);
+                progressBar.setValue(100);
+                showNotification("Comprovante gerado com sucesso!");
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                progressBar.setIndeterminate(false);
+                progressBar.setValue(0);
+                showNotification("Erro ao gerar o comprovante!");
+            }
+        });
+
+        JPanel panel = new JPanel();
+        panel.add(progressBar);
+
+        add(panel);
+    }
+
+    private void showNotification(String message) {
+        NotificationPopup popup = new NotificationPopup(message);
+        popup.showPopup();
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
     }
 }
