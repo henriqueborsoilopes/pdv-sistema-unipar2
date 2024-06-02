@@ -1,5 +1,6 @@
 package br.com.borsoitech.pdv.service;
 
+import br.com.borsoitech.pdv.entity.Pagamento;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +30,9 @@ public class VendaServico {
     	for (ItemVenda item : venda.getItens()) {
     		produtoServico.getById(item.getProduto().getId());
     	}
+        if (venda.getCliente() != null) {
+            clienteServico.getById(venda.getCliente().getId());
+        }
         return venda;
     }
 }

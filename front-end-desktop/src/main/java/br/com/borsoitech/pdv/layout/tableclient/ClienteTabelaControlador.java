@@ -1,10 +1,11 @@
 package br.com.borsoitech.pdv.layout.tableclient;
 
-import java.awt.Component;
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.Serial;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -12,19 +13,22 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.JOptionPane;
 
 import br.com.borsoitech.pdv.layout.login.SessionManager;
+import br.com.borsoitech.pdv.layout.util.Log;
 import br.com.borsoitech.pdv.model.type.Cliente;
 import br.com.borsoitech.pdv.model.type.LoginResponse;
 import br.com.borsoitech.pdv.model.type.Pagina;
 
 public class ClienteTabelaControlador extends javax.swing.JFrame {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private Pagina<Cliente> pagina;
     private int pageNum;
-    private ScheduledExecutorService scheduler;
+    private final ScheduledExecutorService scheduler;
     private LoginResponse loginResponse;
     private String pesquisarNome = "";
     private IClienteSelecionadoListener IClienteSelecionadoListener;
+    private ClienteTabelaModelo modelo;
 
     public ClienteTabelaControlador(Component component) {
         initComponents();
@@ -141,11 +145,9 @@ public class ClienteTabelaControlador extends javax.swing.JFrame {
             @Override
             public void onPaginaLoaded(Pagina<Cliente> pagina1) {
                 ClienteTabelaModelo modelo = new ClienteTabelaModelo(pagina1.getContent());
-                tabelaClientes = modelo.setColumnSize(tabelaClientes);
-                tabelaClientes = modelo.setColumnAlignment(tabelaClientes);
                 tabelaClientes.setModel(modelo);
                 pagina = pagina1;
-                txtNumPagina.setText(String.valueOf(pagina.getNumber() + 1 + "/" + pagina.getTotalPages()));
+                txtNumPagina.setText(pagina.getNumber() + 1 + "/" + pagina.getTotalPages());
                 btAnterior.setText("←");
                 btAnterior.setEnabled(!pagina.isFirst());
                 btProximo.setText("→");
@@ -158,6 +160,7 @@ public class ClienteTabelaControlador extends javax.swing.JFrame {
             }
         });
     }
+
 
     @Override
     public void dispose() {
@@ -192,7 +195,7 @@ public class ClienteTabelaControlador extends javax.swing.JFrame {
         txtPesquisar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         btPesquisar.setBackground(new java.awt.Color(0, 0, 102));
-        btPesquisar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btPesquisar.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 12)); // NOI18N
         btPesquisar.setForeground(new java.awt.Color(255, 255, 255));
         btPesquisar.setText("Pesquisar (Enter)");
         btPesquisar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));

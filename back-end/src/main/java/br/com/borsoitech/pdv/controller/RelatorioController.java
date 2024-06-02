@@ -3,7 +3,9 @@ package br.com.borsoitech.pdv.controller;
 import br.com.borsoitech.pdv.entity.Produto;
 import br.com.borsoitech.pdv.service.ProdutoServico;
 import br.com.borsoitech.pdv.service.RelatorioServico;
+import br.com.borsoitech.pdv.service.dbconnection.DBConnection;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -21,6 +23,8 @@ import org.springframework.web.bind.annotation.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,12 +43,12 @@ public class RelatorioController {
     @ApiResponse(responseCode = "200", description = "Comprovante gerado", content = @Content(mediaType = "application/pdf"))
     @PreAuthorize("hasAnyRole('ADMIN', 'ROLE_OPERATOR')")
     @GetMapping("/{id_venda}")
-    public ResponseEntity<InputStreamResource> gerarComprovante(@PathVariable("id_venda") Long id_venda) {
+    public ResponseEntity<InputStreamResource> gerarComprovante(@Parameter(description = "ID da venda") @PathVariable("id_venda") Long id_venda) {
 
         Map<String, Object> parametros = new HashMap<>();
         parametros.put("ID_VENDA", id_venda);
 
-        byte[] pdfBytes = relatorioService.gerarComprovante(id_venda, parametros, "/relatorio/comprovante_venda.jrxml");
+        byte[] pdfBytes = relatorioService.gerarComprovante(parametros, "/relatorio/comprovante_venda.jrxml");
 
         if (pdfBytes == null) {
             return ResponseEntity.status(500).build();

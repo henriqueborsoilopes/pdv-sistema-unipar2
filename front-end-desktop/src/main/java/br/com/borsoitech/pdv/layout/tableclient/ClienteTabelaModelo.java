@@ -12,12 +12,16 @@ import br.com.borsoitech.pdv.model.type.Cliente;
 public class ClienteTabelaModelo extends AbstractTableModel {
     private static final long serialVersionUID = 1L;
 
-    private final List<Cliente> clientes;
+    private List<Cliente> clientes;
     private final String[] colunas = {"Código", "Nome", "Telefone", "CPF"};
     private final Class<?>[] types = {Integer.class, String.class, String.class, String.class};
     private final boolean[] canEdit = {false, false, false, false};
 
     public ClienteTabelaModelo(List<Cliente> clientes) {
+        this.clientes = clientes;
+    }
+
+    public void setClientes(List<Cliente> clientes) {
         this.clientes = clientes;
     }
 

@@ -1,4 +1,4 @@
-package br.com.borsoitech.pdv.controller.dto;
+package br.com.borsoitech.pdv.controller.dto.save;
 
 import java.io.Serializable;
 
@@ -8,7 +8,7 @@ import javax.validation.constraints.Positive;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-public class PagamentoDTO implements Serializable {
+public class PagamentoSaveDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Schema(description = "Número de parcelas", example = "12", minimum = "1")
@@ -26,9 +26,9 @@ public class PagamentoDTO implements Serializable {
 	@Positive(message = "O tipo de pagamento deve ser um número positivo")
 	private Integer tipoPagamento;
     
-    public PagamentoDTO() { }
+    public PagamentoSaveDTO() { }
 
-    public PagamentoDTO(Integer parcelas, Double valorPago, Integer tipoPagamento) {
+    public PagamentoSaveDTO(Integer parcelas, Double valorPago, Integer tipoPagamento) {
 		super();
 		this.parcelas = parcelas;
 		this.valorPago = valorPago;

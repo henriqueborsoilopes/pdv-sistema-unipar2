@@ -1,4 +1,4 @@
-package br.com.borsoitech.pdv.controller.dto;
+package br.com.borsoitech.pdv.controller.dto.save;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-public class VendaDTO implements Serializable {
+public class VendaSaveDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
     @Schema(description = "Desconto aplicado na venda", example = "10.0", minimum = "0.0")
@@ -45,18 +45,18 @@ public class VendaDTO implements Serializable {
     @Schema(description = "Lista de pagamentos", required = true)
     @NotNull(message = "Pagamentos não podem ser nulos")
     @Size(min = 1, message = "Deve haver pelo menos um pagamento")
-    private List<PagamentoDTO> pagamentos = new ArrayList<>();
+    private List<PagamentoSaveDTO> pagamentos = new ArrayList<>();
 
     @Schema(description = "Lista de itens da venda", required = true)
     @NotNull(message = "Itens não podem ser nulos")
     @Size(min = 1, message = "Deve haver pelo menos um item")
-    private List<ItemVendaDTO> itens = new ArrayList<>();
+    private List<ItemVendaSaveDTO> itens = new ArrayList<>();
 
     
-    public VendaDTO() { }
+    public VendaSaveDTO() { }
 
-    public VendaDTO(Double desconto, Double valorTotal, Double valorTotalPago, Double valorParcialPago,
-    		Boolean vendaQuitada, Long clienteId) {
+    public VendaSaveDTO(Double desconto, Double valorTotal, Double valorTotalPago, Double valorParcialPago,
+                        Boolean vendaQuitada, Long clienteId) {
 		super();
 		this.desconto = desconto;
 		this.valorTotal = valorTotal;
@@ -114,19 +114,19 @@ public class VendaDTO implements Serializable {
         this.clienteId = clienteId;
     }
     
-    public List<PagamentoDTO> getPagamentos() {
+    public List<PagamentoSaveDTO> getPagamentos() {
         return pagamentos;
     }
 
-    public void addPagamento(PagamentoDTO pagamento) {
+    public void addPagamento(PagamentoSaveDTO pagamento) {
         this.pagamentos.add(pagamento);
     }
 
-    public List<ItemVendaDTO> getItens() {
+    public List<ItemVendaSaveDTO> getItens() {
         return itens;
     }
 
-    public void addItem(ItemVendaDTO item) {
+    public void addItem(ItemVendaSaveDTO item) {
         this.itens.add(item);
     }
 }

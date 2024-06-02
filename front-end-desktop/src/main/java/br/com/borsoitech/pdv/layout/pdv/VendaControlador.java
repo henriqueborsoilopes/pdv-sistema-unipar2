@@ -31,12 +31,9 @@ public class VendaControlador extends javax.swing.JFrame {
         initComponents();
         verificarEstadoLogin();
         novaVenda();
-        atulizarColunasLinhasTabelaItem();
-        atulizarColunasLinhasTabelaPagamento();
 
         background.requestFocus();
-        KeyAdapter keyAdapter = keyPressed();
-        addGlobalKeyListeners(keyAdapter);
+        addGlobalKeyListeners(keyPressed());
         addButtonActionListeners();
         configureFocusListeners();
     }
@@ -134,20 +131,19 @@ public class VendaControlador extends javax.swing.JFrame {
 
     private void salvarVenda() {
         VendaService vendaService = new VendaService();
-
         vendaService.salvarVenda(loginResponse.getAccess_token(), venda, new IVendaSalvaCallback() {
             @Override
             public void onVendaSalva(Long vendaId) {
                 SwingUtilities.invokeLater(() -> {
-                    showNotification("Comprovante gerado com sucesso!");
+                    showNotification("Venda salva com sucesso!");
                     int n = JOptionPane.showOptionDialog(null,
                             "Gostaria de imprimir o comprovante?",
                             "Comprovante", JOptionPane.YES_NO_CANCEL_OPTION,
                             JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Imprimir", "Não"}, "Não");
                     if (n == 0) {
                         new RelatorioControlador(loginResponse.getAccess_token(), vendaId);
+                        showNotification("Comprovante gerado com sucesso!");
                     }
-                    novaVenda();
                 });
             }
 
@@ -158,11 +154,11 @@ public class VendaControlador extends javax.swing.JFrame {
                 });
             }
         });
+        novaVenda();
     }
 
     private void atualizaVenda() {
         VendaService vendaService = new VendaService();
-
         vendaService.atualizarVenda(loginResponse.getAccess_token(), venda, new IVendaAtualizaCallback() {
             @Override
             public void onVendaAtualizada(Venda vendaAtualizada) {
@@ -341,23 +337,17 @@ public class VendaControlador extends javax.swing.JFrame {
         }
     }
 
-    private void atulizarColunasLinhasTabelaItem() {
-        tabelaItens.setRowHeight(30);
-    }
-
-    private void atulizarColunasLinhasTabelaPagamento() {
-        tabelaPagamentos.setRowHeight(30);
-    }
-
     private void atualizarPagamentoTabela() {
         VendaPagamentoTabelaModelo modelo = new VendaPagamentoTabelaModelo(venda.getPagamentos());
         tabelaPagamentos.setModel(modelo);
+        tabelaPagamentos.setRowHeight(30);
         atualizarCamposVendaAtual();
     }
 
     private void atualizarItemVendaTabela() {
         VendaItemVendaTabelaModelo modelo = new VendaItemVendaTabelaModelo(venda.getItens());
         tabelaItens.setModel(modelo);
+        tabelaItens.setRowHeight(30);
     }
 
     private void atualizarVenda() {
