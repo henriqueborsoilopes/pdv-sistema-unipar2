@@ -6,6 +6,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
 import br.com.borsoitech.pdv.layout.util.FormatarUtil;
+import br.com.borsoitech.pdv.model.type.Pagamento;
 import br.com.borsoitech.pdv.model.type.enums.TipoPagamento;
 
 public class PagamentoTabelaControlador extends javax.swing.JFrame {
@@ -16,7 +17,7 @@ public class PagamentoTabelaControlador extends javax.swing.JFrame {
     private Double valorPago = 0.0;
     private Integer qtdParcela = 1;
 
-    private IPagamentoSelecionadoListener IPagamentoSelecionadoListener;
+    private IPagamentoSelecionadoListener iPagamentoSelecionadoListener;
 
     public PagamentoTabelaControlador(Component component, Double valorTotal) {
         this.valorTotalVenda = valorTotal;
@@ -53,6 +54,11 @@ public class PagamentoTabelaControlador extends javax.swing.JFrame {
             qtdParcela = Integer.valueOf((String) comboQtdParcela.getSelectedItem());
             atualizarPagamento();
         });
+
+        btConfirmar.addActionListener((ActionEvent e) -> {
+            iPagamentoSelecionadoListener.pagamentoSelecionado(new Pagamento(qtdParcela, valorPago, TipoPagamento.paraEnum(tipoPagamento).getCodigo()));
+            dispose();
+        });
     }
 
     private void carregarDados() {
@@ -70,8 +76,8 @@ public class PagamentoTabelaControlador extends javax.swing.JFrame {
         txtValorParcela.setText(FormatarUtil.valorParaBR(resultado));
     }
 
-    public void addPagamentoSelecionadoListener(IPagamentoSelecionadoListener IPagamentoSelecionadoListener) {
-        this.IPagamentoSelecionadoListener = IPagamentoSelecionadoListener;
+    public void addPagamentoSelecionadoListener(IPagamentoSelecionadoListener iPagamentoSelecionadoListener) {
+        this.iPagamentoSelecionadoListener = iPagamentoSelecionadoListener;
     }
 
     @Override

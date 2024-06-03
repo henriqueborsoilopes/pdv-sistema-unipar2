@@ -55,6 +55,7 @@ public class VendaService {
 
             @Override
             public void onFailure(Call<Venda> call, Throwable t) {
+                t.printStackTrace();
                 callback.onFailure(t.getMessage());
             }
         });

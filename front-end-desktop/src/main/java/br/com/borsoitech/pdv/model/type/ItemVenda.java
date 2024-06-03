@@ -1,44 +1,34 @@
 package br.com.borsoitech.pdv.model.type;
 
-import br.com.borsoitech.pdv.model.type.pk.ItemVendaPK;
+import java.io.Serializable;
 
-public class ItemVenda {
-    
-    private ItemVendaPK id = new ItemVendaPK();
+public class ItemVenda implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    private Double valorTotalItem;
     private String descricao;
     private Integer quantidade;
     private Double valorUnit;
     private Double desconto;
-    
+    private Long produtoId;
+
     public ItemVenda() { }
 
-    public ItemVenda(Venda venda, Produto produto, String descricao, Integer quantidade, Double valorUnit, Double desconto) {
-        this.id.setVenda(venda);
-        this.id.setProduto(produto);
+    public ItemVenda(Double valorTotalItem, String descricao, Integer quantidade, Double valorUnit, Double desconto, Long produtoId) {
+        this.valorTotalItem = valorTotalItem;
         this.descricao = descricao;
         this.quantidade = quantidade;
         this.valorUnit = valorUnit;
         this.desconto = desconto;
+        this.produtoId = produtoId;
     }
-    
-    public Venda getVenda() {
-        return this.id.getVenda();
-    }
-    
-    public void setVenda(Venda venda) {
-        this.id.setVenda(venda);
-    }
-    
-    public Produto getProduto() {
-        return this.id.getProduto();
-    }
-    
-    public void setProduto(Produto produto) {
-        this.id.setProduto(produto);
-    }
-    
+
     public Double getValorTotalItem() {
-        return (quantidade * valorUnit) - desconto;
+        return valorTotalItem;
+    }
+
+    public void setValorTotalItem(Double valorTotalItem) {
+        this.valorTotalItem = valorTotalItem;
     }
 
     public String getDescricao() {
@@ -71,5 +61,13 @@ public class ItemVenda {
 
     public void setDesconto(Double desconto) {
         this.desconto = desconto;
+    }
+
+    public Long getProdutoId() {
+        return produtoId;
+    }
+
+    public void setProdutoId(Long produtoId) {
+        this.produtoId = produtoId;
     }
 }

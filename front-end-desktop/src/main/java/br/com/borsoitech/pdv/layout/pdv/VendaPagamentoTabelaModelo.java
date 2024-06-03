@@ -6,6 +6,7 @@ import javax.swing.table.AbstractTableModel;
 
 import br.com.borsoitech.pdv.layout.util.FormatarUtil;
 import br.com.borsoitech.pdv.model.type.Pagamento;
+import br.com.borsoitech.pdv.model.type.enums.TipoPagamento;
 
 public class VendaPagamentoTabelaModelo extends AbstractTableModel {
     private static final long serialVersionUID = 1L;
@@ -32,7 +33,7 @@ public class VendaPagamentoTabelaModelo extends AbstractTableModel {
         Pagamento pagamento = pagamentos.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                return pagamento.getTipoPagamento().getDescricao();
+                return TipoPagamento.paraEnum(pagamento.getTipoPagamento()).getDescricao();
             case 1:
                 return pagamento.getParcelas();
             case 2:

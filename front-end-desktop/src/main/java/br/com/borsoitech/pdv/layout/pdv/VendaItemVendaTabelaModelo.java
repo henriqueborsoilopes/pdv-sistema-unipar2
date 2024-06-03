@@ -32,7 +32,7 @@ public class VendaItemVendaTabelaModelo extends AbstractTableModel {
         ItemVenda item = itens.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                return item.getProduto().getId();
+                return item.getProdutoId();
             case 1:
                 return item.getDescricao();
             case 2:

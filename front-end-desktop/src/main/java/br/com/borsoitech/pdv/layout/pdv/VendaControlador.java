@@ -144,6 +144,7 @@ public class VendaControlador extends javax.swing.JFrame {
                         new RelatorioControlador(loginResponse.getAccess_token(), vendaId);
                         showNotification("Comprovante gerado com sucesso!");
                     }
+                    novaVenda();
                 });
             }
 
@@ -154,7 +155,6 @@ public class VendaControlador extends javax.swing.JFrame {
                 });
             }
         });
-        novaVenda();
     }
 
     private void atualizaVenda() {
@@ -180,7 +180,7 @@ public class VendaControlador extends javax.swing.JFrame {
     }
 
     private void novaVenda() {
-        venda = new Venda(null, 0.0, null);
+        venda = new Venda(0.0, 0.0, 0.0, 0.0, false, null);
         atualizarCamposNovaVenda();
         atualizarItemVendaTabela();
         atualizarPagamentoTabela();
@@ -212,13 +212,13 @@ public class VendaControlador extends javax.swing.JFrame {
     }
 
     private void abrirPagamentoTabelaControlador() {
-        if (venda.vendaQuitada()) {
+        if (venda.isVendaQuitada()) {
             return;
         }
         PagamentoTabelaControlador controlador = new PagamentoTabelaControlador(this, venda.getValorParcialPago());
         controlador.addPagamentoSelecionadoListener((Pagamento pagamento1) -> {
-            pagamento1.setVenda(venda);
             venda.addPagamento(pagamento1);
+            atualizaVenda();
             atualizarPagamentoTabela();
             synchronized (VendaControlador.this) {
                 VendaControlador.this.notify();
@@ -306,6 +306,7 @@ public class VendaControlador extends javax.swing.JFrame {
 
     private void addProduto() {
         addItemVenda();
+        atualizaVenda();
         atualizarItemVendaTabela();
         atualizarCamposVendaAtual();
     }
@@ -313,14 +314,14 @@ public class VendaControlador extends javax.swing.JFrame {
     private void addItemVenda() {
         if (produto != null) {
             for (ItemVenda item : venda.getItens()) {
-                if (item.getProduto().equals(produto)) {
+                if (item.getProdutoId().equals(produto.getId())) {
                     item.setDesconto(item.getDesconto() + descontoItem);
                     item.setQuantidade(item.getQuantidade() + qtdProduto);
                     produto = null;
                     return;
                 }
             }
-            venda.addItem(new ItemVenda(venda, produto, produto.getDescricao(), qtdProduto, produto.getValorUnit(), descontoItem));
+            venda.addItem(new ItemVenda(0.0, produto.getDescricao(), qtdProduto, produto.getValorUnit(), descontoItem, produto.getId()));
             produto = null;
         }
     }
@@ -351,7 +352,7 @@ public class VendaControlador extends javax.swing.JFrame {
     }
 
     private void atualizarVenda() {
-        venda.setCliente(cliente);
+        venda.setClienteId(cliente.getId());
         venda.setDesconto(descontoVenda);
     }
 
