@@ -9,9 +9,7 @@ public class Produto {
     private Long id;
     private String descricao;
     private Double valorUnit;
-    
-    private List<ItemVenda> itens = new ArrayList<>();
-    
+
     public Produto() { }
 
     public Produto(Long id, String descricao, Double valorUnit) {
@@ -42,10 +40,6 @@ public class Produto {
 
     public void setValorUnit(Double valorUnit) {
         this.valorUnit = valorUnit;
-    }
-
-    public List<ItemVenda> getItens() {
-        return itens;
     }
 
     @Override

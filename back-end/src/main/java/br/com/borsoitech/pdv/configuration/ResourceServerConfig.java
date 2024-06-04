@@ -28,7 +28,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	@Value("${cors.origins}")
 	private String corsOrigins;
 	
-	private static final String[] PUBLIC = { "/oauth/token", "/h2-console/**", "/products/**", "/clientes/**", "/vendas/**", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html" };
+	private static final String[] PUBLIC = { "/oauth/token", "/h2-console/**", "/swagger-ui/**", "/v3/api-docs/**"};
 	private static final String[] OPERATOR_OR_ADMIN	 = { "/products/**" };
 	private static final String[] ADMIN	 = { "/users/**" };
 	

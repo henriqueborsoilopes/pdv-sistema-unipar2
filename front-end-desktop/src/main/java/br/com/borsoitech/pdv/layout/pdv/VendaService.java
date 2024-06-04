@@ -11,7 +11,7 @@ import retrofit2.Retrofit;
 public class VendaService {
 
     private final IVendaService vendaService;
-    private static final String AUTHORIZATION_HEADER_PREFIX = "Basic ";
+    private static final String AUTHORIZATION_HEADER_PREFIX = "Bearer ";
 
     public VendaService() {
         Retrofit retrofit = RetrofitService.getClient();

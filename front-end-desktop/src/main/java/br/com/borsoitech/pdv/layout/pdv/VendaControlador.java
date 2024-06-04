@@ -162,7 +162,7 @@ public class VendaControlador extends javax.swing.JFrame {
         vendaService.atualizarVenda(loginResponse.getAccess_token(), venda, new IVendaAtualizaCallback() {
             @Override
             public void onVendaAtualizada(Venda vendaAtualizada) {
-                // TODO Este método não é relevante para a operação de salvar uma nova venda
+                venda = vendaAtualizada;
             }
 
             @Override
