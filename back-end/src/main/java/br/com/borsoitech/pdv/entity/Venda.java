@@ -42,7 +42,7 @@ public class Venda {
     }
     
     public boolean vendaQuitada() {
-        return getValorTotalPago().equals(getValorTotal());
+        return getValorTotalPago().equals(getValorTotal()) && !getValorTotal().equals(0.0);
     }
     
     public Double getValorParcialPago() {
@@ -51,16 +51,20 @@ public class Venda {
     
     public Double getValorTotalPago() {
         double pago = 0.0;
-        for (Pagamento pagamento : pagamentos) {
-            pago += pagamento.getValorPago();
+        if (!pagamentos.isEmpty()) {
+            for (Pagamento pagamento : pagamentos) {
+                pago += pagamento.getValorPago();
+            }
         }
         return pago;
     }
     
     public Double getValorTotal() {
         double valorTotalItem = 0.0;
-        for (ItemVenda item : itens) {
-            valorTotalItem += item.getValorTotalItem();
+        if (!itens.isEmpty()) {
+            for (ItemVenda item : itens) {
+                valorTotalItem += item.getValorTotalItem();
+            }
         }
         return valorTotalItem;
     }

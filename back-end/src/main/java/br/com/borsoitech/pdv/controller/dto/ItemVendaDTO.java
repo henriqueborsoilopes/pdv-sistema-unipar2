@@ -1,4 +1,4 @@
-package br.com.borsoitech.pdv.controller.dto.save;
+package br.com.borsoitech.pdv.controller.dto;
 
 import java.io.Serializable;
 
@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-public class ItemVendaSaveDTO implements Serializable {
+public class ItemVendaDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Schema(description = "Valor total do item", example = "200.0", minimum = "0.0")
@@ -41,9 +41,9 @@ public class ItemVendaSaveDTO implements Serializable {
 	@NotNull(message = "ID do produto não pode ser nulo")
 	private Long produtoId;
     
-    public ItemVendaSaveDTO() { }
+    public ItemVendaDTO() { }
 
-	public ItemVendaSaveDTO(Double valorTotalItem, String descricao, Integer quantidade, Double valorUnit, Double desconto, Long produtoId) {
+	public ItemVendaDTO(Double valorTotalItem, String descricao, Integer quantidade, Double valorUnit, Double desconto, Long produtoId) {
 		this.valorTotalItem = valorTotalItem;
 		this.descricao = descricao;
 		this.quantidade = quantidade;

@@ -1,12 +1,14 @@
 package br.com.borsoitech.pdv.controller.mapper;
 
-import br.com.borsoitech.pdv.controller.dto.save.ItemVendaSaveDTO;
-import br.com.borsoitech.pdv.controller.dto.update.VendaUpdateDTO;
+import br.com.borsoitech.pdv.controller.dto.ItemVendaDTO;
+import br.com.borsoitech.pdv.controller.dto.PagamentoDTO;
 import br.com.borsoitech.pdv.entity.ItemVenda;
+import br.com.borsoitech.pdv.entity.Pagamento;
+import br.com.borsoitech.pdv.entity.enums.TipoPagamento;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
-import br.com.borsoitech.pdv.controller.dto.save.VendaSaveDTO;
+import br.com.borsoitech.pdv.controller.dto.VendaDTO;
 import br.com.borsoitech.pdv.entity.Venda;
 
 @Component
@@ -18,28 +20,39 @@ public class VendaMapper {
 		VendaMapper.mapper = mapper;
 	}
 
-	public static VendaSaveDTO toSaveDTO(Venda entity) {
-		VendaSaveDTO dto = mapper.map(entity, VendaSaveDTO.class);
+	public static VendaDTO toDTO(Venda entity) {
+		VendaDTO dto = mapper.map(entity, VendaDTO.class);
 		dto.setValorTotal(entity.getValorTotal());
+		dto.setVendaQuitada(entity.vendaQuitada());
+		dto.setValorParcialPago(entity.getValorParcialPago());
+		dto.setValorTotalPago(entity.getValorTotalPago());
 		for (ItemVenda item : entity.getItens()) {
-			dto.getItens().add(new ItemVendaSaveDTO(item.getValorTotalItem(), item.getDescricao(), item.getQuantidade(), item.getValorUnit(), item.getDesconto(), item.getProduto().getId()));
+			ItemVendaDTO vendaItem = mapper.map(item, ItemVendaDTO.class);
+			vendaItem.setValorTotalItem(item.getValorTotalItem());
+			dto.addItem(vendaItem);
+		}
+		if (!entity.getPagamentos().isEmpty()) {
+			for (Pagamento pagamento : entity.getPagamentos()) {
+				PagamentoDTO pagamentoDTO = mapper.map(pagamento, PagamentoDTO.class);
+				pagamentoDTO.setTipoPag(pagamento.getTipoPagamento().getCodigo());
+				dto.addPagamento(pagamentoDTO);
+			}
 		}
 		return dto;
 	}
 
-	public static VendaUpdateDTO toUpdateDTO(Venda entity) {
-		return mapper.map(entity, VendaUpdateDTO.class);
-	}
-
-	public static Venda toEntity(VendaSaveDTO dto) {
+	public static Venda toEntity(VendaDTO dto) {
 		Venda entity = mapper.map(dto, Venda.class);
-		for (ItemVendaSaveDTO item : dto.getItens()) {
+		for (ItemVendaDTO item : dto.getItens()) {
 			entity.addItem(mapper.map(item, ItemVenda.class));
 		}
+		if (!dto.getPagamentos().isEmpty()) {
+			for (PagamentoDTO pagamento : dto.getPagamentos()) {
+				Pagamento pagamentoEntity = mapper.map(pagamento, Pagamento.class);
+				pagamentoEntity.setTipoPagamento(TipoPagamento.paraEnum(pagamento.getTipoPag()));
+				entity.addPagamento(pagamentoEntity);
+			}
+		}
 		return entity;
-	}
-	
-	public static Venda toEntity(VendaUpdateDTO dto) {
-		return mapper.map(dto, Venda.class);
 	}
 }

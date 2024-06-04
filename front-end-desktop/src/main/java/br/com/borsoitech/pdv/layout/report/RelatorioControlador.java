@@ -10,13 +10,16 @@ public class RelatorioControlador extends JFrame {
 
     private JProgressBar progressBar;
 
-    private RelatorioService relatorioService = new RelatorioService();
+    private RelatorioService relatorioService;
 
     public RelatorioControlador(String authorization, Long id_venda) {
         setTitle("Gerar Relatório");
         setSize(400, 150);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
+        setVisible(true);
+
+        relatorioService = new RelatorioService();
 
         progressBar = new JProgressBar();
         progressBar.setPreferredSize(new Dimension(300, 10));

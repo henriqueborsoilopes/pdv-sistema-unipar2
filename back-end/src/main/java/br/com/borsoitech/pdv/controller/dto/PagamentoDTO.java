@@ -1,4 +1,4 @@
-package br.com.borsoitech.pdv.controller.dto.save;
+package br.com.borsoitech.pdv.controller.dto;
 
 import java.io.Serializable;
 
@@ -8,7 +8,7 @@ import javax.validation.constraints.Positive;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-public class PagamentoSaveDTO implements Serializable {
+public class PagamentoDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Schema(description = "Número de parcelas", example = "12", minimum = "1")
@@ -24,15 +24,15 @@ public class PagamentoSaveDTO implements Serializable {
 	@Schema(description = "Tipo de pagamento", example = "1", allowableValues = {"1", "2", "3", "4"})
 	@NotNull(message = "O tipo de pagamento não pode ser nulo")
 	@Positive(message = "O tipo de pagamento deve ser um número positivo")
-	private Integer tipoPagamento;
+	private Integer tipoPag;
     
-    public PagamentoSaveDTO() { }
+    public PagamentoDTO() { }
 
-    public PagamentoSaveDTO(Integer parcelas, Double valorPago, Integer tipoPagamento) {
+    public PagamentoDTO(Integer parcelas, Double valorPago, Integer tipoPag) {
 		super();
 		this.parcelas = parcelas;
 		this.valorPago = valorPago;
-		this.tipoPagamento = tipoPagamento;
+		this.tipoPag = tipoPag;
 	}
 
 	public Integer getParcelas() {
@@ -51,11 +51,11 @@ public class PagamentoSaveDTO implements Serializable {
         this.valorPago = valorPago;
     }
 
-    public Integer getTipoPagamento() {
-        return tipoPagamento;
+    public Integer getTipoPag() {
+        return tipoPag;
     }
 
-    public void setTipoPagamento(Integer tipoPagamento) {
-        this.tipoPagamento = tipoPagamento;
+    public void setTipoPag(Integer tipoPag) {
+        this.tipoPag = tipoPag;
     }
 }

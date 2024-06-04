@@ -15,7 +15,7 @@ import java.nio.file.Paths;
 public class RelatorioService {
 
     private final IRelatorioService relatorioService;
-    private static final String AUTHORIZATION_HEADER_PREFIX = "Basic ";
+    private static final String AUTHORIZATION_HEADER_PREFIX = "Bearer ";
 
     public RelatorioService() {
         Retrofit retrofit = RetrofitService.getClient();

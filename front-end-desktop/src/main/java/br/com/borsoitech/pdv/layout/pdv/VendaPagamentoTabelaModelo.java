@@ -33,7 +33,7 @@ public class VendaPagamentoTabelaModelo extends AbstractTableModel {
         Pagamento pagamento = pagamentos.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                return TipoPagamento.paraEnum(pagamento.getTipoPagamento()).getDescricao();
+                return TipoPagamento.paraEnum(pagamento.getTipoPag()).getDescricao();
             case 1:
                 return pagamento.getParcelas();
             case 2:

@@ -141,8 +141,7 @@ public class VendaControlador extends javax.swing.JFrame {
                             "Comprovante", JOptionPane.YES_NO_CANCEL_OPTION,
                             JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Imprimir", "Não"}, "Não");
                     if (n == 0) {
-                        new RelatorioControlador(loginResponse.getAccess_token(), vendaId);
-                        showNotification("Comprovante gerado com sucesso!");
+                        new RelatorioControlador(loginResponse.getAccess_token(), vendaId).setVisible(true);
                     }
                     novaVenda();
                 });

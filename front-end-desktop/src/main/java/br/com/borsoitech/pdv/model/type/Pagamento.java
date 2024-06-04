@@ -1,24 +1,21 @@
 package br.com.borsoitech.pdv.model.type;
 
 import java.io.Serializable;
-import java.util.Objects;
-
-import br.com.borsoitech.pdv.model.type.enums.TipoPagamento;
 
 public class Pagamento  implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Integer parcelas;
     private Double valorPago;
-    private Integer tipoPagamento;
+    private Integer tipoPag;
 
     public Pagamento() { }
 
-    public Pagamento(Integer parcelas, Double valorPago, Integer tipoPagamento) {
+    public Pagamento(Integer parcelas, Double valorPago, Integer tipoPag) {
         super();
         this.parcelas = parcelas;
         this.valorPago = valorPago;
-        this.tipoPagamento = tipoPagamento;
+        this.tipoPag = tipoPag;
     }
 
     public Integer getParcelas() {
@@ -37,11 +34,11 @@ public class Pagamento  implements Serializable {
         this.valorPago = valorPago;
     }
 
-    public Integer getTipoPagamento() {
-        return tipoPagamento;
+    public Integer getTipoPag() {
+        return tipoPag;
     }
 
-    public void setTipoPagamento(Integer tipoPagamento) {
-        this.tipoPagamento = tipoPagamento;
+    public void setTipoPag(Integer tipoPag) {
+        this.tipoPag = tipoPag;
     }
 }
