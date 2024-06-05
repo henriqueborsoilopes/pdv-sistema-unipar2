@@ -27,10 +27,10 @@ public class Venda {
     @JoinColumn(name = "id_cliente")
     private Cliente cliente;
     
-    @OneToMany(mappedBy = "venda", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "venda", cascade = CascadeType.PERSIST)
     private List<Pagamento> pagamentos = new ArrayList<>();
     
-    @OneToMany(mappedBy = "id.venda", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "id.venda", cascade = CascadeType.PERSIST)
     private List<ItemVenda> itens = new ArrayList<>();
     
     public Venda() { }

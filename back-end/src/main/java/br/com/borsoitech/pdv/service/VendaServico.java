@@ -1,5 +1,6 @@
 package br.com.borsoitech.pdv.service;
 
+import br.com.borsoitech.pdv.entity.Cliente;
 import br.com.borsoitech.pdv.entity.Pagamento;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +24,16 @@ public class VendaServico {
 
     @Transactional
     public Venda inserir(Venda venda) {
+        Cliente cliente = clienteServico.getById(venda.getCliente().getId());
+        for (ItemVenda item : venda.getItens()) {
+            item.setVenda(venda);
+            item.setProduto(produtoServico.getById(item.getProduto().getId()));
+        }
+        for (Pagamento pagamento : venda.getPagamentos()) {
+            pagamento.setVenda(venda);
+        }
+        venda.setId(null);
+        venda.setCliente(cliente);
         return vendaRepository.save(venda);
     }
 

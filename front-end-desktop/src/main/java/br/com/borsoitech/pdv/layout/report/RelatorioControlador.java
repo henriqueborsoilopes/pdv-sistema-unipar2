@@ -17,7 +17,6 @@ public class RelatorioControlador extends JFrame {
         setSize(400, 150);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
-        setVisible(true);
 
         relatorioService = new RelatorioService();
 
@@ -34,6 +33,7 @@ public class RelatorioControlador extends JFrame {
                 progressBar.setIndeterminate(false);
                 progressBar.setValue(100);
                 showNotification("Comprovante gerado com sucesso!");
+                dispose();
             }
 
             @Override
@@ -41,6 +41,7 @@ public class RelatorioControlador extends JFrame {
                 progressBar.setIndeterminate(false);
                 progressBar.setValue(0);
                 showNotification("Erro ao gerar o comprovante!");
+                dispose();
             }
         });
 

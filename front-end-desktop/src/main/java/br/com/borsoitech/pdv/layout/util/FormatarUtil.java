@@ -12,13 +12,15 @@ public class FormatarUtil {
         return (int) Math.ceil(valor);
     }
 
+    private static final NumberFormat numberFormatBR = NumberFormat.getCurrencyInstance(Locale.forLanguageTag("pt-BR"));
+
     public static String valorParaBR(double valor) {
-        return NumberFormat.getCurrencyInstance(Locale.forLanguageTag("pt-BR")).format(valor);
+        return numberFormatBR.format(valor);
     }
 
     public static Double valorParaDouble(String valor) {
         try {
-            return NumberFormat.getCurrencyInstance(Locale.forLanguageTag("pt-BR")).parse(valor).doubleValue();
+            return numberFormatBR.parse(valor).doubleValue();
         } catch (ParseException ex) {
             return null;
         }

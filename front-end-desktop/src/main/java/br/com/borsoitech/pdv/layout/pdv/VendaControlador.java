@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.*;
 
+import br.com.borsoitech.pdv.layout.login.LoginControlador;
 import br.com.borsoitech.pdv.layout.login.SessionManager;
 import br.com.borsoitech.pdv.layout.popup.NotificationPopup;
 import br.com.borsoitech.pdv.layout.report.RelatorioControlador;
@@ -19,9 +20,9 @@ import br.com.borsoitech.pdv.model.type.*;
 
 public class VendaControlador extends javax.swing.JFrame {
 
-    private Integer qtdProduto = 1;
-    private Double descontoItem = 0.00;
-    private Double descontoVenda = 0.00;
+    private Integer qtdProduto;
+    private Double descontoItem;
+    private Double descontoVenda;
     private Produto produto;
     private Cliente cliente;
     private Venda venda;
@@ -29,6 +30,7 @@ public class VendaControlador extends javax.swing.JFrame {
 
     public VendaControlador() {
         initComponents();
+        initValues();
         verificarEstadoLogin();
         novaVenda();
 
@@ -38,11 +40,17 @@ public class VendaControlador extends javax.swing.JFrame {
         configureFocusListeners();
     }
 
+    public void initValues() {
+        qtdProduto = 1;
+        descontoItem = 0.00;
+        descontoVenda = 0.00;
+    }
+
     private void verificarEstadoLogin() {
         loginResponse = SessionManager.getInstance().getLoginResponse();
         if (loginResponse == null || loginResponse.getAccess_token() == null) {
             JOptionPane.showMessageDialog(this, "Usuário não está autenticado. Favor fazer o login.");
-            // TODO Redirecionar para a tela de login ou encerrar a aplicação
+            new LoginControlador().setVisible(true);
         }
     }
 
@@ -84,7 +92,7 @@ public class VendaControlador extends javax.swing.JFrame {
             @Override
             public void focusLost(FocusEvent e) {
                 String valor = txtDescontoProduto.getText();
-                descontoItem = valor.isEmpty() ? descontoItem : FormatarUtil.valorParaDouble(valor);
+                descontoItem = valor.isEmpty() ? descontoItem : Double.valueOf(valor);
                 txtDescontoProduto.setText(FormatarUtil.valorParaBR(descontoItem));
             }
         });
@@ -135,7 +143,7 @@ public class VendaControlador extends javax.swing.JFrame {
             @Override
             public void onVendaSalva(Long vendaId) {
                 SwingUtilities.invokeLater(() -> {
-                    showNotification("Venda salva com sucesso!");
+                    showNotification("Venda salva com sucesso! ID: " + vendaId);
                     int n = JOptionPane.showOptionDialog(null,
                             "Gostaria de imprimir o comprovante?",
                             "Comprovante", JOptionPane.YES_NO_CANCEL_OPTION,
@@ -162,6 +170,8 @@ public class VendaControlador extends javax.swing.JFrame {
             @Override
             public void onVendaAtualizada(Venda vendaAtualizada) {
                 venda = vendaAtualizada;
+                atualizarItemVendaTabela();
+                atualizarCamposVendaAtual();
             }
 
             @Override
@@ -306,8 +316,6 @@ public class VendaControlador extends javax.swing.JFrame {
     private void addProduto() {
         addItemVenda();
         atualizaVenda();
-        atualizarItemVendaTabela();
-        atualizarCamposVendaAtual();
     }
 
     private void addItemVenda() {

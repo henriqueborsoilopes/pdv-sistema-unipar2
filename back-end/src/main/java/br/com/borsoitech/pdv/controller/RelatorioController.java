@@ -50,8 +50,8 @@ public class RelatorioController {
 
         byte[] pdfBytes = relatorioService.gerarComprovante(parametros, "/relatorio/comprovante_venda.jrxml");
 
-        if (pdfBytes == null) {
-            return ResponseEntity.status(500).build();
+        if (pdfBytes == null || pdfBytes.length == 0) {
+            return ResponseEntity.status(500).body(null);
         }
 
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(pdfBytes);
