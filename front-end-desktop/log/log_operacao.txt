@@ -262,3 +262,13 @@
 2024-06-04 20:45:57 INFO  - Operação de listagem de produtos paginado - 200
 2024-06-04 20:46:03 INFO  - Operação de listagem de clientes paginado - 200
 2024-06-04 20:46:03 INFO  - Operação de listagem de clientes paginado - 200
+2024-06-05 20:56:01 INFO  - Operação de listagem de produtos paginado - 200
+2024-06-05 20:56:01 INFO  - Operação de listagem de produtos paginado - 200
+2024-06-05 20:56:03 INFO  - Operação de listagem de produtos paginado - 200
+2024-06-05 20:56:04 INFO  - Operação de listagem de produtos paginado - 200
+2024-06-05 20:56:07 INFO  - Operação de listagem de clientes paginado - 200
+2024-06-05 20:56:07 INFO  - Operação de listagem de clientes paginado - 200
+2024-06-05 20:57:11 INFO  - Operação de listagem de produtos paginado - 200
+2024-06-05 20:57:11 INFO  - Operação de listagem de produtos paginado - 200
+2024-06-05 20:57:14 INFO  - Operação de listagem de clientes paginado - 200
+2024-06-05 20:57:14 INFO  - Operação de listagem de clientes paginado - 200

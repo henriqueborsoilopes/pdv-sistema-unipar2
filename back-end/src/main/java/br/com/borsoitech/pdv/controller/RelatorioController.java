@@ -48,7 +48,7 @@ public class RelatorioController {
         Map<String, Object> parametros = new HashMap<>();
         parametros.put("ID_VENDA", id_venda);
 
-        byte[] pdfBytes = relatorioService.gerarComprovante(parametros, "/relatorio/comprovante_venda.jrxml");
+        byte[] pdfBytes = relatorioService.gerarComprovante(parametros, "/relatorio/comprovante.jrxml");
 
         if (pdfBytes == null || pdfBytes.length == 0) {
             return ResponseEntity.status(500).body(null);
