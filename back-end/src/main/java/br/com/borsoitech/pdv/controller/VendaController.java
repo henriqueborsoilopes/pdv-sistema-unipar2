@@ -4,6 +4,7 @@ import java.net.URI;
 
 import javax.validation.Valid;
 
+import br.com.borsoitech.pdv.controller.exception.StandardError;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -41,7 +42,8 @@ public class VendaController {
 
     @Operation(summary = "Salvar venda", description = "Salvar uma nova venda")
     @ApiResponse(responseCode = "201", description = "Venda salva com sucesso", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Void.class))))
-    @ApiResponse(responseCode = "422", description = "Erro de validação", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MethodArgumentNotValidException.class)))
+    @ApiResponse(responseCode = "422", description = "Erro de validação", content = @Content(mediaType = "application/json", schema = @Schema(implementation = StandardError.class)))
+    @ApiResponse(responseCode = "401", description = "Não autorizado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = StandardError.class)))
     @PreAuthorize("hasAnyRole('ADMIN', 'ROLE_OPERATOR')")
     @PostMapping
     public ResponseEntity<Void> insert(
@@ -54,6 +56,7 @@ public class VendaController {
 
     @Operation(summary = "Atualiza Venda", description = "Atualiza o Venda")
     @ApiResponse(responseCode = "200", description = "Venda atualiza com sucesso", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = VendaDTO.class))))
+    @ApiResponse(responseCode = "401", description = "Não autorizado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = StandardError.class)))
     @PreAuthorize("hasAnyRole('ADMIN', 'ROLE_OPERATOR')")
     @PutMapping
     public ResponseEntity<VendaDTO> updateCarrinho(

@@ -1,5 +1,6 @@
 package br.com.borsoitech.pdv.controller;
 
+import br.com.borsoitech.pdv.controller.exception.StandardError;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,7 @@ public class ProdutoController {
 
     @Operation(summary = "Obter todos os produtos", description = "Retorna uma página de todos os produtos")
     @ApiResponse(responseCode = "200", description = "Produtos encontrados", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Produto.class))))
+    @ApiResponse(responseCode = "401", description = "Não autorizado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = StandardError.class)))
     @PreAuthorize("hasAnyRole('ADMIN', 'ROLE_OPERATOR')")
     @GetMapping
     public ResponseEntity<Page<Produto>> getAllPaged(@RequestParam(name = "descricao", defaultValue = "") String descricao, Pageable pageable) {

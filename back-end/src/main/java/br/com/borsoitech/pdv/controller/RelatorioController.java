@@ -1,5 +1,6 @@
 package br.com.borsoitech.pdv.controller;
 
+import br.com.borsoitech.pdv.controller.exception.StandardError;
 import br.com.borsoitech.pdv.entity.Produto;
 import br.com.borsoitech.pdv.service.ProdutoServico;
 import br.com.borsoitech.pdv.service.RelatorioServico;
@@ -41,6 +42,7 @@ public class RelatorioController {
 
     @Operation(summary = "Obter comprovante de venda", description = "Retorna o comprovante de venda")
     @ApiResponse(responseCode = "200", description = "Comprovante gerado", content = @Content(mediaType = "application/pdf"))
+    @ApiResponse(responseCode = "401", description = "Não autorizado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = StandardError.class)))
     @PreAuthorize("hasAnyRole('ADMIN', 'ROLE_OPERATOR')")
     @GetMapping("/{id_venda}")
     public ResponseEntity<InputStreamResource> gerarComprovante(@Parameter(description = "ID da venda") @PathVariable("id_venda") Long id_venda) {
