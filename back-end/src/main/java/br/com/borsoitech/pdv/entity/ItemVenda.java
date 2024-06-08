@@ -6,10 +6,15 @@ import javax.persistence.Table;
 
 import br.com.borsoitech.pdv.entity.pk.ItemVendaPK;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 @Entity
 @Table(name = "tb_item_venda")
-public class ItemVenda {
-    
+public class ItemVenda implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     @EmbeddedId
     private ItemVendaPK id = new ItemVendaPK();
     private String descricao;

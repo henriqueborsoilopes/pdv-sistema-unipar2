@@ -1,5 +1,6 @@
-package br.com.borsoitech.pdv.layout.tableproduct;
+package br.com.borsoitech.pdv.layout.tableproduct.tabela;
 
+import java.io.Serial;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
@@ -8,6 +9,7 @@ import br.com.borsoitech.pdv.layout.util.FormatarUtil;
 import br.com.borsoitech.pdv.model.type.Produto;
 
 public class ProdutoTabelaModelo extends AbstractTableModel {
+    @Serial
     private static final long serialVersionUID = 1L;
     
     private final List<Produto> produtos;
@@ -30,12 +32,12 @@ public class ProdutoTabelaModelo extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Produto produto = produtos.get(rowIndex);
-        switch (columnIndex) {
-            case 0 : return produto.getId();
-            case 1 : return produto.getDescricao();
-            case 2 : return FormatarUtil.valorParaBR(produto.getValorUnit());
-            default : return null;
-        }
+        return switch (columnIndex) {
+            case 0 -> produto.getId();
+            case 1 -> produto.getDescricao();
+            case 2 -> FormatarUtil.valorParaBR(produto.getValorUnit());
+            default -> null;
+        };
     }
 
     @Override

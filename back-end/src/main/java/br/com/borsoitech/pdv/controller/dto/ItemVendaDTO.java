@@ -1,5 +1,6 @@
 package br.com.borsoitech.pdv.controller.dto;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import javax.validation.constraints.DecimalMin;
@@ -10,6 +11,7 @@ import javax.validation.constraints.Size;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public class ItemVendaDTO implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 	
 	@Schema(description = "Valor total do item", example = "200.0", minimum = "0.0")

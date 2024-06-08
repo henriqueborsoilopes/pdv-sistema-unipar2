@@ -5,6 +5,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.Serial;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -12,15 +13,17 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.JOptionPane;
 
 import br.com.borsoitech.pdv.layout.login.SessionManager;
+import br.com.borsoitech.pdv.layout.tableproduct.tabela.ProdutoTabelaModelo;
 import br.com.borsoitech.pdv.layout.util.FormatarUtil;
 import br.com.borsoitech.pdv.model.type.LoginResponse;
 import br.com.borsoitech.pdv.model.type.Pagina;
 import br.com.borsoitech.pdv.model.type.Produto;
 
 public class ProdutoTabelaControlador extends javax.swing.JFrame {
+    @Serial
     private static final long serialVersionUID = 1L;
 
-    private ScheduledExecutorService scheduler;
+    private final ScheduledExecutorService scheduler;
     private int pageNum;
     private String pesquisarNome = "";
     private LoginResponse loginResponse;
@@ -34,7 +37,6 @@ public class ProdutoTabelaControlador extends javax.swing.JFrame {
         scheduler.scheduleAtFixedRate(this::carregarTabela, 0, 5, TimeUnit.MINUTES);
         setLocationRelativeTo(component);
         setVisible(true);
-        carregarTabela();
 
         tabelaProdutos.setRowHeight(29);
 

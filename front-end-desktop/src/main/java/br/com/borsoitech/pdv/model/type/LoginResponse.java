@@ -1,6 +1,11 @@
 package br.com.borsoitech.pdv.model.type;
 
-public class LoginResponse {
+import java.io.Serial;
+import java.io.Serializable;
+
+public class LoginResponse implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
 	
     private String access_token;
     private String token_type;

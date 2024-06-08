@@ -1,10 +1,12 @@
 package br.com.borsoitech.pdv.controller.exception;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class OAuthCustomError implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private String error;

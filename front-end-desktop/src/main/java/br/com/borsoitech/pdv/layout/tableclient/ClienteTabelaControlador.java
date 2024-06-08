@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.swing.JOptionPane;
 
+import br.com.borsoitech.pdv.layout.login.LoginControlador;
 import br.com.borsoitech.pdv.layout.login.SessionManager;
 import br.com.borsoitech.pdv.layout.util.Log;
 import br.com.borsoitech.pdv.model.type.Cliente;
@@ -37,7 +38,6 @@ public class ClienteTabelaControlador extends javax.swing.JFrame {
         scheduler.scheduleAtFixedRate(this::carregarTabela, 0, 5, TimeUnit.MINUTES);
         setLocationRelativeTo(component);
         setVisible(true);
-        carregarTabela();
 
         tabelaClientes.setRowHeight(29);
         txtPesquisar.requestFocus();
@@ -76,7 +76,7 @@ public class ClienteTabelaControlador extends javax.swing.JFrame {
         loginResponse = SessionManager.getInstance().getLoginResponse();
         if (loginResponse == null || loginResponse.getAccess_token() == null) {
             JOptionPane.showMessageDialog(this, "Usuário não está autenticado. Favor fazer o login.");
-            // TODO Redirecionar para a tela de login ou encerrar a aplicação
+            new LoginControlador().setVisible(true);
         }
     }
 

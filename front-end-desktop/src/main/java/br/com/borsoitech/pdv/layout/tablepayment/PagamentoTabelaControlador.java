@@ -4,12 +4,15 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.io.Serial;
+import java.util.Objects;
 
 import br.com.borsoitech.pdv.layout.util.FormatarUtil;
 import br.com.borsoitech.pdv.model.type.Pagamento;
 import br.com.borsoitech.pdv.model.type.enums.TipoPagamento;
 
 public class PagamentoTabelaControlador extends javax.swing.JFrame {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private Double valorTotalVenda = 0.0;
@@ -44,14 +47,14 @@ public class PagamentoTabelaControlador extends javax.swing.JFrame {
         comboTipoPagamento.addActionListener((ActionEvent e) -> {
             tipoPagamento = (String) comboTipoPagamento.getSelectedItem();
             TipoPagamento tipo = TipoPagamento.paraEnum(tipoPagamento);
-            for (int i = 1; i <= tipo.getQtdParcelas(); i++) {
+            for (int i = 1; i <= Objects.requireNonNull(tipo).getQtdParcelas(); i++) {
                 comboQtdParcela.addItem(String.valueOf(i));
             }
             atualizarPagamento();
         });
 
         comboQtdParcela.addActionListener((ActionEvent e) -> {
-            qtdParcela = Integer.valueOf((String) comboQtdParcela.getSelectedItem());
+            qtdParcela = Integer.valueOf((String) Objects.requireNonNull(comboQtdParcela.getSelectedItem()));
             atualizarPagamento();
         });
 
@@ -72,7 +75,7 @@ public class PagamentoTabelaControlador extends javax.swing.JFrame {
     }
 
     private void atualizarPagamento() {
-        Double resultado = valorPago / qtdParcela;
+        double resultado = valorPago / qtdParcela;
         txtValorParcela.setText(FormatarUtil.valorParaBR(resultado));
     }
 

@@ -4,8 +4,8 @@ import java.awt.Desktop;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.io.ByteArrayInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -35,6 +35,7 @@ public class RelatorioService {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     try {
+                        assert response.body() != null;
                         byte[] pdfBytes = response.body().bytes();
                         processarPdf(pdfBytes, callback);
                     } catch (Exception ex) {
@@ -63,32 +64,42 @@ public class RelatorioService {
                     callback.onRelatorioGerado();
                 }
             } else {
-                gerarEVisualizarPDF(pdfBytes, callback);
+                salvarEExibirPdf(pdfBytes, callback);
             }
         } catch (IOException | PrinterException ex) {
             callback.onFailure("Erro ao processar o comprovante: " + ex.getMessage());
         }
     }
 
-
-    private boolean verificarImpressoraDisponivel() {
-        PrinterJob printerJob = PrinterJob.getPrinterJob();
-        return printerJob.printDialog();
-    }
-
-    private void gerarEVisualizarPDF(byte[] pdfBytes, final IRelatorioCallback callback) {
+    private void salvarEExibirPdf(byte[] pdfBytes, final IRelatorioCallback callback) {
         try {
             Path pdfPath = Paths.get("comprovante.pdf");
-            try (FileOutputStream fos = new FileOutputStream(pdfPath.toFile())) {
-                fos.write(pdfBytes);
-            }
+            Files.write(pdfPath, pdfBytes);
             if (Desktop.isDesktopSupported()) {
                 Desktop.getDesktop().open(pdfPath.toFile());
             }
             callback.onRelatorioGerado();
-        } catch (Exception ex) {
-            callback.onFailure(ex.getMessage());
+        } catch (IOException ex) {
+            callback.onFailure("Erro ao salvar e exibir o comprovante: " + ex.getMessage());
         }
     }
 
+    private boolean verificarImpressoraDisponivel() {
+        return PrinterJob.lookupPrintServices().length > 0;
+    }
+
+//    private void gerarEVisualizarPDF(byte[] pdfBytes, final IRelatorioCallback callback) {
+//        try {
+//            Path pdfPath = Paths.get("comprovante.pdf");
+//            try (FileOutputStream fos = new FileOutputStream(pdfPath.toFile())) {
+//                fos.write(pdfBytes);
+//            }
+//            if (Desktop.isDesktopSupported()) {
+//                Desktop.getDesktop().open(pdfPath.toFile());
+//            }
+//            callback.onRelatorioGerado();
+//        } catch (Exception ex) {
+//            callback.onFailure(ex.getMessage());
+//        }
+//    }
 }

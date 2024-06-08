@@ -55,7 +55,6 @@ public class VendaService {
 
             @Override
             public void onFailure(Call<Venda> call, Throwable t) {
-                t.printStackTrace();
                 callback.onFailure(t.getMessage());
             }
         });
@@ -71,7 +70,6 @@ public class VendaService {
             String vendaIdString = segments[segments.length - 1];
             return Long.parseLong(vendaIdString);
         } catch (NumberFormatException | ArrayIndexOutOfBoundsException ex) {
-            ex.printStackTrace();
             return null;
         }
     }

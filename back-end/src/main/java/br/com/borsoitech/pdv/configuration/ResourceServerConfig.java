@@ -29,11 +29,11 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	private String corsOrigins;
 	
 	private static final String[] PUBLIC = { "/oauth/token", "/h2-console/**", "/swagger-ui/**", "/v3/api-docs/**"};
-	private static final String[] OPERATOR_OR_ADMIN	 = { "/products/**" };
-	private static final String[] ADMIN	 = { "/users/**" };
+	private static final String[] OPERATOR_OR_ADMIN	 = { "/products/**", "/users/**" };
+	private static final String[] ADMIN	 = { "/**" };
 	
-	private Environment environment;
-	private JwtTokenStore jwtTokenStore;
+	private final Environment environment;
+	private final JwtTokenStore jwtTokenStore;
 	
 	public ResourceServerConfig(Environment environment, JwtTokenStore jwtTokenStore) {
 		this.environment = environment;

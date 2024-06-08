@@ -1,22 +1,25 @@
 package br.com.borsoitech.pdv.model.type;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class Venda implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
-    private Double desconto;
-    private Double valorTotal;
-    private Double valorTotalPago;
-    private Double valorParcialPago;
-    private Boolean vendaQuitada;
+    private Double desconto = 0.0;
+    private Double valorTotal = 0.0;
+    private Double valorTotalPago = 0.0;
+    private Double valorParcialPago = 0.0;
+    private Boolean vendaQuitada = Boolean.FALSE;
     private Long clienteId;
+    private boolean isNovaVenda = Boolean.TRUE;
 
-    private List<Pagamento> pagamentos = new ArrayList<>();
-    private List<ItemVenda> itens = new ArrayList<>();
+    private final List<Pagamento> pagamentos = new ArrayList<>();
+    private final List<ItemVenda> itens = new ArrayList<>();
 
     public Venda() { }
 
@@ -93,5 +96,13 @@ public class Venda implements Serializable {
 
     public void addItem(ItemVenda item) {
         this.itens.add(item);
+    }
+
+    public boolean isNovaVenda() {
+        return isNovaVenda;
+    }
+
+    public void setNovaVenda(boolean isNovaVenda) {
+        this.isNovaVenda = isNovaVenda;
     }
 }

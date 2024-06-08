@@ -38,9 +38,11 @@ public class VendaServico {
     }
 
     public Venda updateCarrinho(Venda venda) {
-    	for (ItemVenda item : venda.getItens()) {
-    		produtoServico.getById(item.getProduto().getId());
-    	}
+    	if (!venda.getItens().isEmpty()) {
+            for (ItemVenda item : venda.getItens()) {
+                produtoServico.getById(item.getProduto().getId());
+            }
+        }
         if (venda.getCliente() != null) {
             clienteServico.getById(venda.getCliente().getId());
         }

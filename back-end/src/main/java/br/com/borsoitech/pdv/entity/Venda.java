@@ -1,5 +1,7 @@
 package br.com.borsoitech.pdv.entity;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -16,8 +18,10 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "tb_venda")
-public class Venda {
-    
+public class Venda implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

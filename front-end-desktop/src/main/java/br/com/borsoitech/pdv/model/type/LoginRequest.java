@@ -1,6 +1,11 @@
 package br.com.borsoitech.pdv.model.type;
 
-public class LoginRequest {
+import java.io.Serial;
+import java.io.Serializable;
+
+public class LoginRequest implements Serializable {
+	@Serial
+	private static final long serialVersionUID = 1L;
 	
     private String username;
     private String password;

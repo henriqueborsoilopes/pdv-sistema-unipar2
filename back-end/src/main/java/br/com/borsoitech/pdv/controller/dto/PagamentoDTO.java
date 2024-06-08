@@ -1,5 +1,6 @@
 package br.com.borsoitech.pdv.controller.dto;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import javax.validation.constraints.DecimalMin;
@@ -9,7 +10,8 @@ import javax.validation.constraints.Positive;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public class PagamentoDTO implements Serializable {
-	private static final long serialVersionUID = 1L;
+	@Serial
+    private static final long serialVersionUID = 1L;
 	
 	@Schema(description = "Número de parcelas", example = "12", minimum = "1")
 	@NotNull(message = "O número de parcelas não pode ser nulo")

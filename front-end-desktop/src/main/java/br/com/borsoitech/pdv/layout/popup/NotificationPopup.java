@@ -5,8 +5,7 @@ import java.awt.*;
 
 public class NotificationPopup extends JWindow {
 
-    private JLabel messageLabel;
-    private Timer timer;
+    private final Timer timer;
 
     public NotificationPopup(String message) {
         setLayout(new BorderLayout());
@@ -14,7 +13,7 @@ public class NotificationPopup extends JWindow {
         setLocationRelativeTo(null);
         setAlwaysOnTop(true);
 
-        messageLabel = new JLabel(message, SwingConstants.CENTER);
+        JLabel messageLabel = new JLabel(message, SwingConstants.CENTER);
         messageLabel.setFont(new Font("Arial", Font.BOLD, 16));
         messageLabel.setOpaque(true);
         messageLabel.setBackground(new Color(0, 128, 0));

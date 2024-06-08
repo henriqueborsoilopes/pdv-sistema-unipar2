@@ -1,5 +1,6 @@
-package br.com.borsoitech.pdv.layout.pdv;
+package br.com.borsoitech.pdv.layout.pdv.tabela;
 
+import java.io.Serial;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
@@ -9,6 +10,7 @@ import br.com.borsoitech.pdv.model.type.Pagamento;
 import br.com.borsoitech.pdv.model.type.enums.TipoPagamento;
 
 public class VendaPagamentoTabelaModelo extends AbstractTableModel {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private final List<Pagamento> pagamentos;
@@ -31,16 +33,12 @@ public class VendaPagamentoTabelaModelo extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Pagamento pagamento = pagamentos.get(rowIndex);
-        switch (columnIndex) {
-            case 0:
-                return TipoPagamento.paraEnum(pagamento.getTipoPag()).getDescricao();
-            case 1:
-                return pagamento.getParcelas();
-            case 2:
-                return FormatarUtil.valorParaBR(pagamento.getValorPago());
-            default:
-                return null;
-        }
+        return switch (columnIndex) {
+            case 0 -> TipoPagamento.paraEnum(pagamento.getTipoPag()).getDescricao();
+            case 1 -> pagamento.getParcelas();
+            case 2 -> FormatarUtil.valorParaBR(pagamento.getValorPago());
+            default -> null;
+        };
     }
 
     @Override

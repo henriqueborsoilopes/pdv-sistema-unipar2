@@ -2,11 +2,11 @@ package br.com.borsoitech.pdv.service.exception;
 
 import java.io.Serial;
 
-public class DatabaseException extends RuntimeException {
+public class ReportException extends RuntimeException {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public DatabaseException(String message) {
+    public ReportException(String message) {
         super(message);
     }
 }

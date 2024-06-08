@@ -1,5 +1,6 @@
-package br.com.borsoitech.pdv.layout.pdv;
+package br.com.borsoitech.pdv.layout.pdv.tabela;
 
+import java.io.Serial;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
@@ -8,6 +9,7 @@ import br.com.borsoitech.pdv.layout.util.FormatarUtil;
 import br.com.borsoitech.pdv.model.type.ItemVenda;
 
 public class VendaItemVendaTabelaModelo extends AbstractTableModel {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private final List<ItemVenda> itens;
@@ -30,22 +32,15 @@ public class VendaItemVendaTabelaModelo extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         ItemVenda item = itens.get(rowIndex);
-        switch (columnIndex) {
-            case 0:
-                return item.getProdutoId();
-            case 1:
-                return item.getDescricao();
-            case 2:
-                return FormatarUtil.valorParaBR(item.getValorUnit());
-            case 3:
-                return item.getQuantidade();
-            case 4:
-                return FormatarUtil.valorParaBR(item.getDesconto());
-            case 5:
-                return FormatarUtil.valorParaBR(item.getValorTotalItem());
-            default:
-                return null;
-        }
+        return switch (columnIndex) {
+            case 0 -> item.getProdutoId();
+            case 1 -> item.getDescricao();
+            case 2 -> FormatarUtil.valorParaBR(item.getValorUnit());
+            case 3 -> item.getQuantidade();
+            case 4 -> FormatarUtil.valorParaBR(item.getDesconto());
+            case 5 -> FormatarUtil.valorParaBR(item.getValorTotalItem());
+            default -> null;
+        };
     }
 
     @Override

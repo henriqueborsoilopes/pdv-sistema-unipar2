@@ -48,20 +48,13 @@ public class RelatorioController {
         Map<String, Object> parametros = new HashMap<>();
         parametros.put("ID_VENDA", id_venda);
 
-        byte[] pdfBytes = relatorioService.gerarComprovante(parametros, "/relatorio/comprovante.jrxml");
-
-        if (pdfBytes == null || pdfBytes.length == 0) {
-            return ResponseEntity.status(500).body(null);
-        }
+        byte[] pdfBytes = relatorioService.gerarComprovante(parametros, "/relatorio/venda_comprovante.jrxml");
 
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(pdfBytes);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Disposition", "inline; filename=comprovante.pdf");
 
-        return ResponseEntity.ok()
-                .headers(headers)
-                .contentType(MediaType.APPLICATION_PDF)
-                .body(new InputStreamResource(byteArrayInputStream));
+        return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF).body(new InputStreamResource(byteArrayInputStream));
     }
 }

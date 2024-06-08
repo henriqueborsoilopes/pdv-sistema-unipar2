@@ -1,6 +1,8 @@
 package br.com.borsoitech.pdv.service;
 
 import br.com.borsoitech.pdv.service.dbconnection.DBConnection;
+import br.com.borsoitech.pdv.service.exception.ReportException;
+import br.com.borsoitech.pdv.service.util.RelatorioUtil;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.stereotype.Service;
@@ -24,7 +26,7 @@ public class RelatorioServico {
 
     public byte[] gerarComprovante(Map<String, Object> parametros, String jrxmlPath) {
         try (Connection conn = DBConnection.getConnection()) {
-            String adjustedPath = adjustPath(jrxmlPath);
+            String adjustedPath = RelatorioUtil.adjustPath(jrxmlPath);
             JasperReport jasperReport = JasperCompileManager.compileReport(adjustedPath);
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, conn);
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -32,13 +34,7 @@ public class RelatorioServico {
 
             return byteArrayOutputStream.toByteArray();
         } catch (JRException | SQLException e) {
-            return null;
+            throw new ReportException("Erro ao gerar comprovante");
         }
-    }
-
-    private String adjustPath(String jrxmlPath) {
-        String basePath = Paths.get("src/main/java/br/com/borsoitech/pdv/service").toAbsolutePath().toString();
-        String adjustedPath = Paths.get(basePath, jrxmlPath).toString();
-        return adjustedPath.replace("\\", "/");
     }
 }

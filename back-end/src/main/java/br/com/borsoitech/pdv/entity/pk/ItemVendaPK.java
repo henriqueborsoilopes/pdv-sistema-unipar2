@@ -1,5 +1,6 @@
 package br.com.borsoitech.pdv.entity.pk;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -14,7 +15,8 @@ import br.com.borsoitech.pdv.entity.Venda;
 
 @Embeddable
 public class ItemVendaPK implements Serializable {
-	private static final long serialVersionUID = 1L;
+	@Serial
+    private static final long serialVersionUID = 1L;
 
 	@ManyToOne
     @JsonIgnore

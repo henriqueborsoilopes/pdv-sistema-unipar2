@@ -34,7 +34,6 @@ public class DBConnection {
         try {
             return DriverManager.getConnection(datasourceURL, datasourceUsername, datasourcePassword);
         } catch (SQLException e) {
-            e.printStackTrace();
             return null;
         }
     }

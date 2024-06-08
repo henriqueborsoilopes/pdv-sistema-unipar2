@@ -1,6 +1,5 @@
 package br.com.borsoitech.pdv.layout.tableproduct;
 
-import br.com.borsoitech.pdv.layout.login.LoginService;
 import br.com.borsoitech.pdv.layout.util.Log;
 import br.com.borsoitech.pdv.model.retrofit.RetrofitService;
 import br.com.borsoitech.pdv.model.type.Pagina;
@@ -12,7 +11,7 @@ import retrofit2.Retrofit;
 
 public class ProdutoService {
 	
-	private IProdutoService iProdutoService;
+	private final IProdutoService iProdutoService;
     private static final String AUTHORIZATION_HEADER_PREFIX = "Bearer ";
     private final Log log;
 

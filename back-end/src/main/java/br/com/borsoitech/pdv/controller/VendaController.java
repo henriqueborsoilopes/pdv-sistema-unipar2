@@ -26,6 +26,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Tag(name = "Venda", description = "API para gerenciamento de venda")
 @RestController
@@ -40,20 +41,19 @@ public class VendaController {
 
     @Operation(summary = "Salvar venda", description = "Salvar uma nova venda")
     @ApiResponse(responseCode = "201", description = "Venda salva com sucesso", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Void.class))))
-    @ApiResponse(responseCode = "422", description = "Erro de validação", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+    @ApiResponse(responseCode = "422", description = "Erro de validação", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MethodArgumentNotValidException.class)))
     @PreAuthorize("hasAnyRole('ADMIN', 'ROLE_OPERATOR')")
     @PostMapping
     public ResponseEntity<Void> insert(
     	@io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Venda a ser criada", required = true, content = @Content(mediaType = "application/json", schema = @Schema(implementation = VendaDTO.class)))
         @Valid @RequestBody VendaDTO dto) {
         Venda venda = vendaServico.inserir(VendaMapper.toEntity(dto));
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(venda.getId()).toUri();
-        return ResponseEntity.created(uri).build();
+        String path = ServletUriComponentsBuilder.fromCurrentRequest().toString();
+        return ResponseEntity.created(URI.create(path + "/" + venda.getId())).build();
     }
 
-    @Operation(summary = "Atualiza carrinho", description = "Atualiza o carrinho")
-    @ApiResponse(responseCode = "200", description = "carrinho atualiza com sucesso", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = VendaDTO.class))))
-    @ApiResponse(responseCode = "422", description = "Erro de validação", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MethodArgumentNotValidException.class)))
+    @Operation(summary = "Atualiza Venda", description = "Atualiza o Venda")
+    @ApiResponse(responseCode = "200", description = "Venda atualiza com sucesso", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = VendaDTO.class))))
     @PreAuthorize("hasAnyRole('ADMIN', 'ROLE_OPERATOR')")
     @PutMapping
     public ResponseEntity<VendaDTO> updateCarrinho(

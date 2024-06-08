@@ -1,5 +1,7 @@
 package br.com.borsoitech.pdv.entity;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Objects;
 
 import javax.persistence.Entity;
@@ -14,8 +16,10 @@ import br.com.borsoitech.pdv.entity.enums.TipoPagamento;
 
 @Entity
 @Table(name = "tb_pagamento")
-public class Pagamento {
-    
+public class Pagamento implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

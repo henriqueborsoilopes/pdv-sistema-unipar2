@@ -1,5 +1,6 @@
 package br.com.borsoitech.pdv.entity;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
@@ -18,6 +19,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import br.com.borsoitech.pdv.service.exception.ForbiddenException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,6 +27,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Entity
 @Table(name = "tb_user")
 public class User implements UserDetails, Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 	
 	@Id

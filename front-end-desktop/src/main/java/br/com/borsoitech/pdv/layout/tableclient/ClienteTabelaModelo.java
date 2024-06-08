@@ -1,5 +1,6 @@
 package br.com.borsoitech.pdv.layout.tableclient;
 
+import java.io.Serial;
 import java.util.List;
 
 import javax.swing.*;
@@ -10,6 +11,7 @@ import javax.swing.table.TableCellRenderer;
 import br.com.borsoitech.pdv.model.type.Cliente;
 
 public class ClienteTabelaModelo extends AbstractTableModel {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private List<Cliente> clientes;

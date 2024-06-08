@@ -1,11 +1,15 @@
 package br.com.borsoitech.pdv.model.type;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Pagina<T> {
+public class Pagina<T> implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     
-    private List<T> content = new ArrayList<>();
+    private final List<T> content = new ArrayList<>();
     private boolean last;
     private Integer totalElements;
     private Integer totalPages;

@@ -5,18 +5,20 @@ import br.com.borsoitech.pdv.layout.pdv.VendaControlador;
 import javax.swing.*;
 
 import javax.swing.*;
+import java.io.Serial;
 import java.util.Arrays;
 
 import javax.swing.*;
 import java.util.Arrays;
 
 public class LoginControlador extends javax.swing.JFrame {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public LoginControlador() {
         initComponents();
         btnEntrar.addActionListener(e -> efetuarLogin());
-        setLocationRelativeTo(null); // Para abrir no centro do monitor
+        setLocationRelativeTo(null);
     }
 
     private void efetuarLogin() {
@@ -33,11 +35,11 @@ public class LoginControlador extends javax.swing.JFrame {
             @Override
             public void isAutorizado(boolean isLogger) {
                 if (isLogger) {
-                    Arrays.fill(senha, ' '); // Limpar a senha da memória
+                    Arrays.fill(senha, ' ');
                     new VendaControlador().setVisible(true);
                     dispose();
                 } else {
-                    Arrays.fill(senha, ' '); // Limpar a senha da memória
+                    Arrays.fill(senha, ' ');
                     JOptionPane.showMessageDialog(LoginControlador.this, "Credenciais inválidas. Tente novamente.");
                 }
             }

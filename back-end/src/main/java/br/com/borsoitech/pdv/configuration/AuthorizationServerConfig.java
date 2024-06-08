@@ -31,12 +31,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Value("${jwt.duration}")
 	private Integer jwtDuration;
 	
-	private BCryptPasswordEncoder passwordEncoder;
-	private JwtAccessTokenConverter accessTokenConverter;
-	private JwtTokenStore jwtTokenStore;
-	private AuthenticationManager authenticationManager;
-	private JwtTokenEnhancer jwtTokenEnhancer;
-	private UserDetailsService userDetailsService;
+	private final BCryptPasswordEncoder passwordEncoder;
+	private final JwtAccessTokenConverter accessTokenConverter;
+	private final JwtTokenStore jwtTokenStore;
+	private final AuthenticationManager authenticationManager;
+	private final JwtTokenEnhancer jwtTokenEnhancer;
+	private final UserDetailsService userDetailsService;
 	
 	public AuthorizationServerConfig(BCryptPasswordEncoder passwordEncoder, JwtAccessTokenConverter accessTokenConverter, JwtTokenStore jwtTokenStore, AuthenticationManager authenticationManager, JwtTokenEnhancer jwtTokenEnhancer, UserDetailsService userDetailsService) {
 		this.passwordEncoder = passwordEncoder;
@@ -66,7 +66,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 		TokenEnhancerChain chain = new TokenEnhancerChain();
 		chain.setTokenEnhancers(Arrays.asList(accessTokenConverter, jwtTokenEnhancer));
-		
 		 endpoints.authenticationManager(authenticationManager)
 		 .tokenStore(jwtTokenStore)
 		 .accessTokenConverter(accessTokenConverter)

@@ -23,15 +23,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RequestMapping("/produtos")
 public class ProdutoController {
     
-    private ProdutoServico produtoService;
+    private final ProdutoServico produtoService;
     
     public ProdutoController(ProdutoServico produtoService) {
         this.produtoService = produtoService;
     }
 
     @Operation(summary = "Obter todos os produtos", description = "Retorna uma página de todos os produtos")
-    @ApiResponse(responseCode = "200", description = "Produtos encontrados",
-        content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Produto.class))))
+    @ApiResponse(responseCode = "200", description = "Produtos encontrados", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Produto.class))))
     @PreAuthorize("hasAnyRole('ADMIN', 'ROLE_OPERATOR')")
     @GetMapping
     public ResponseEntity<Page<Produto>> getAllPaged(@RequestParam(name = "descricao", defaultValue = "") String descricao, Pageable pageable) {

@@ -16,7 +16,7 @@ import br.com.borsoitech.pdv.repository.UserRepository;
 @Component
 public class JwtTokenEnhancer implements TokenEnhancer {
 
-	private UserRepository userRepository;
+	private final UserRepository userRepository;
 	
 	public JwtTokenEnhancer(UserRepository userRepository) {
 		this.userRepository = userRepository;
@@ -27,9 +27,9 @@ public class JwtTokenEnhancer implements TokenEnhancer {
 		Optional<User> user = userRepository.findByEmail(authentication.getName());
 		
 		Map<String, Object> map = new HashMap<>();
-		map.put("userFirstName", user.get().getUsername());
-		map.put("userId", user.get().getId());
-		
+		map.put("userFirstName", user.isPresent() ? user.get().getUsername() : "");
+		map.put("userId", user.isPresent() ? user.get().getId() : "");
+
 		DefaultOAuth2AccessToken token = (DefaultOAuth2AccessToken) accessToken;
 		token.setAdditionalInformation(map);
 		

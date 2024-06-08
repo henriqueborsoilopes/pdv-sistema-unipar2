@@ -1,16 +1,17 @@
 package br.com.borsoitech.pdv.layout.report;
 
 import java.awt.*;
+import java.io.Serial;
 
 import br.com.borsoitech.pdv.layout.popup.NotificationPopup;
 
 import javax.swing.*;
 
 public class RelatorioControlador extends JFrame {
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     private JProgressBar progressBar;
-
-    private RelatorioService relatorioService;
 
     public RelatorioControlador(String authorization, Long id_venda) {
         setTitle("Gerar Relatório");
@@ -18,7 +19,7 @@ public class RelatorioControlador extends JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        relatorioService = new RelatorioService();
+        RelatorioService relatorioService = new RelatorioService();
 
         progressBar = new JProgressBar();
         progressBar.setPreferredSize(new Dimension(300, 10));

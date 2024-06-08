@@ -1,8 +1,10 @@
 package br.com.borsoitech.pdv.model.type;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 public class Pagamento  implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private Integer parcelas;

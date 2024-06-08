@@ -26,10 +26,12 @@ public class VendaMapper {
 		dto.setVendaQuitada(entity.vendaQuitada());
 		dto.setValorParcialPago(entity.getValorParcialPago());
 		dto.setValorTotalPago(entity.getValorTotalPago());
-		for (ItemVenda item : entity.getItens()) {
-			ItemVendaDTO vendaItem = mapper.map(item, ItemVendaDTO.class);
-			vendaItem.setValorTotalItem(item.getValorTotalItem());
-			dto.addItem(vendaItem);
+		if (!entity.getItens().isEmpty()) {
+			for (ItemVenda item : entity.getItens()) {
+				ItemVendaDTO vendaItem = mapper.map(item, ItemVendaDTO.class);
+				vendaItem.setValorTotalItem(item.getValorTotalItem());
+				dto.addItem(vendaItem);
+			}
 		}
 		if (!entity.getPagamentos().isEmpty()) {
 			for (Pagamento pagamento : entity.getPagamentos()) {
@@ -43,8 +45,10 @@ public class VendaMapper {
 
 	public static Venda toEntity(VendaDTO dto) {
 		Venda entity = mapper.map(dto, Venda.class);
-		for (ItemVendaDTO item : dto.getItens()) {
-			entity.addItem(mapper.map(item, ItemVenda.class));
+		if (!dto.getItens().isEmpty()) {
+			for (ItemVendaDTO item : dto.getItens()) {
+				entity.addItem(mapper.map(item, ItemVenda.class));
+			}
 		}
 		if (!dto.getPagamentos().isEmpty()) {
 			for (PagamentoDTO pagamento : dto.getPagamentos()) {

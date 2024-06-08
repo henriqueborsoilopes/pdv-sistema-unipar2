@@ -1,8 +1,12 @@
 package br.com.borsoitech.pdv.model.type;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Cliente {
+public class Cliente implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     
     private Long id;
     private String nome;

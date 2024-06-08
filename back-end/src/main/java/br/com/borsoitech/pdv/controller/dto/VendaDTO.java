@@ -1,5 +1,6 @@
 package br.com.borsoitech.pdv.controller.dto;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,8 @@ import javax.validation.constraints.Size;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public class VendaDTO implements Serializable {
-	private static final long serialVersionUID = 1L;
+	@Serial
+    private static final long serialVersionUID = 1L;
 	
     @Schema(description = "Desconto aplicado na venda", example = "10.0", minimum = "0.0")
     @NotNull(message = "Desconto não pode ser nulo")
